@@ -270,12 +270,20 @@ public class TransacService implements ITransacService {
 			if (exportTransacAfiliados.getApellidoAfiliado() == null) {
 				result = result + FormatUtil.llenoConEspaciosDerecha("", 40);
 			} else {
-				if (exportTransacAfiliados.getApellidoAfiliado().trim().length() > 40) {
+				String nombreA = "";
+				String nombreTotal = "";
+				if (exportTransacAfiliados.getNombreAfiliado() == null) {
+					nombreA = "";
+				}else{
+					nombreA = exportTransacAfiliados.getNombreAfiliado();
+				}
+				nombreTotal = exportTransacAfiliados.getApellidoAfiliado().trim() + " " + nombreA; 
+				if (nombreTotal.trim().length() > 40) {
 					exportTransacAfiliados
-							.setApellidoAfiliado(exportTransacAfiliados.getApellidoAfiliado().trim().substring(0, 40));
+							.setApellidoAfiliado(nombreTotal.trim().substring(0, 40));
 				}
 				result = result
-						+ FormatUtil.llenoConEspaciosDerecha(exportTransacAfiliados.getApellidoAfiliado().trim(), 40);
+						+ FormatUtil.llenoConEspaciosDerecha(nombreTotal.trim(), 40);
 			}
 			try {
 				result = result + DateUtil.getDate(remito.getFecha(), "yyyyMMdd");
