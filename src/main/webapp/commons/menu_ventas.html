@@ -1,0 +1,31 @@
+<ul class="nav navbar-nav">
+	<li ng-class="{ active: isActive('/agendado') }" class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			<span class="icon agendados"></span> 
+			<span class="section-name">jkjkkkj <b class="caret"></b></span>
+		</a>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<li><a href="#/agendado" close-menu my-refresh>Agendado</a></li>			
+		</ul>
+	</li>
+	<li ng-class="{ active: isActive('/articulo') }" class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			<span class="icon articulos"></span> 
+			<span class="section-name"> Artículos <b class="caret"></b> </span>
+		</a>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<li>
+				<a href="#/articulo" my-refresh>Artículo</a>
+			</li>			
+		</ul>
+	</li>
+	<li ng-class="{ active: isActive('/articulo') }" class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        	<span class="icon indicadores"></span>
+        	<span class="section-name">Reportes<b class="caret"></b></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="#/generateExportMedifeInterno" close-menu my-refresh>Reportes Ventas </a></li>
+        </ul>
+    </li>
+</ul>

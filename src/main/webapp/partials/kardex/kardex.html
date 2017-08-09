@@ -1,0 +1,129 @@
+
+<style>
+.fadee.ng-enter {
+	transition: 0.8s linear all;
+	opacity: 0;
+}
+
+/* The finishing CSS styles for the enter animation */
+.fadee.ng-enter.ng-enter-active {
+	opacity: 1;
+}
+</style>
+
+<!-- settings changer -->
+
+
+
+<!-- Users table -->
+<div class="content">
+<alert-message></alert-message>
+<alert-error></alert-error>
+<div class="form-base1">
+	<div class="row-fluid">
+		<h4>
+			Ingresos (kardex)
+		</h4>
+	</div>
+	<div class="form-base">
+		<div class="row">
+			<div class="col-xs-2">
+				<label class="control-label">Filtrar por fecha (dd-mm-aaaa):</label> <input
+					class="form-control" type="text" ng-model="fecha"
+					ng-enter="searchIngreso('fecha')" placeholder="Busca un ingreso..." ng-change="reset()"></input>
+					
+			</div>
+			<div class="col-xs-4">
+				<label class="control-label">Filtrar referencia interna (R000100000001 / A000100000001):</label> <input
+					class="form-control" type="text" ng-model="refInterna"
+					ng-enter="searchIngreso('refInterna')" placeholder="Busca un ingreso..." ng-change="reset()"></input>
+					
+			</div>
+			
+			<div class="col-xs-4">
+				<img src="img/pdf.png" ng-show="ingresos.length != 0" ng-click="downloadPDF()" />
+			</div>
+
+		</div>
+	</div>
+	
+	
+</div>
+
+
+<div ng-show="ingresos.length != 0 " ng-cloak
+	class="box-content mtop box-view" sidebar-directive="state"
+	ng-class="{'pushmenu-push' : toggle.state}"
+	tagged-infinite-scroll="get_instances('')"
+	tagged-infinite-scroll-disabled="fetch_disabled || fetch_disabled_tmp">
+
+	<ul>
+		<div class="counter" style="min-width: 528px; max-width: 576px">
+			<span>{{ingresos.length}}</span> de <span>{{ingresos.length}}
+			</span>
+
+			<div class="inline-block sortBy">
+				| <a ng-click="sort_by('instance.created_on')"
+					ng-class="{'dropup': is_active_sorting_asc('instance.created_on')}">
+					<span ng-class="{'bold': is_active_sorting('instance.created_on')}">Fecha</span>
+					<span class="caret"></span>
+				</a> <a ng-click="sort_by('id')"
+					ng-class="{'dropup': is_active_sorting_asc('id')}"> <span
+					ng-class="{'bold': is_active_sorting('id')}">Operador</span> <span
+					class="caret"></span>
+				</a> <a ng-click="sort_by('commiter.cn')"
+					ng-class="{'dropup': is_active_sorting_asc('commiter.cn')}"> <span
+					ng-class="{'bold': is_active_sorting('commiter.cn')}">Cantidad</span>
+					<span class="caret"></span>
+				</a>
+			</div>
+			<moorea-select class="moorea-select inline-block middle"
+				style="width: 200px;" placeholder="Filtrar por ..." showby="true"
+				dataset="distinct_tasks" name="selected_filter_task"
+				ng-change="set_filter_and_refresh(selected_filter_task)"
+				ng-model="selected_filter_task"></moorea-select>
+		</div>
+		<li class="boxes fade1" tabindex="0"
+			ng-repeat="current_ingreso in ingresos">
+			<div>
+
+				<h4>
+					<b>{{current_ingreso.id.stock.descripC}}</b>
+				</h4>
+				<span class="instance-description">{{current_ingreso.obser}}</span>
+			</div>
+
+			<ul>
+				<li class="col-md-4"><span>Fecha de creación</span> <b>{{current_ingreso.fechaComprob
+						| date}}</b></li>
+				<li class="col-md-4 procedure-number"><span>Nro. Kardex</span>
+					<b>{{current_ingreso.id.transacNr}}</b></li>
+				<li class="col-md-4"><span class="status">Operador</span> <b>{{current_ingreso.operadorNr}}</b></li>
+				<li class="col-md-4"><span>Cantidad</span> <b>{{current_ingreso.cantidad1}}
+				</b></li>
+				<li class="col-md-4"><span>OC</span> <b>{{current_ingreso.transacOrigen}}
+				</b></li>				
+				
+			</ul> <br>
+		</li>
+		<br>
+
+	</ul>
+
+</div>
+</div>
+
+
+
+<script>
+	$(document).scroll(function() {
+		var y = $(this).scrollTop();
+		if (y > 100) {
+			$('.counter').addClass("counter-scroll");
+		} else {
+			$('.counter').removeClass("counter-scroll");
+		}
+
+	});
+</script>
+

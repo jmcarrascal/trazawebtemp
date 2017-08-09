@@ -1,0 +1,62 @@
+= Signer Deamond
+Fecha: Dic. 2015
+:toc:
+:sectlinks:
+
+== 1. Abstract 
+El presente documento presenta las caracteristicas del firmador en su version Deamond. Si bien existe una versión Applet del firmador la misma tiene limitaciones intrincesas impuestas por los navegadores. Por otro lado solo era compatible para aplicaciones HTML o bien aplicaciones Java. 
+
+=== 1.1 Motivación 
+La ley de firma digital Argentina impone ciertas restircciones técnicas en durante el proceso de firma. Entre ellas se destaca que el proceso de firma debe de realizarse en el dispositivo en poder del usuario (excluyendo de esta forma utilizar un servicio alojado en un server) y que los certificados deben de estar dentro de su poder y/o dominio. Por tal motivo se ha desarrollado una versión del firmador la cual es un link:../applet/README.adoc[Applet Java]. Esta versiónse implementa como un componente en una página HMTL. Este componente actualmente es una versión vigente y mantenida dentro de la solución. Lamentablemente la evolución de los browser obliga a realizar re-diseños y mejoras constantemente. Un ejemplo es Chrome: A partir de la versión 43 no brinda más soporte para NPAPI impidiendo la ejecución de cualquier aplicación Java. Luego existen las particularidades de cada browser en sí mismo (como es el caso de Internet Explorer). El objetivo es buscar una arquitectura que pueda ser lo más agnostica posible y que cumpla con los requerimientos que impone la Ley de Firma Digital.  
+
+Por ello se ha desarrollado la versión "Deamond". Esta versión es una aplicación Java StandAlone que expone una batería de servicios WEB REST. Esta solución permite que tanto aplicaciones WEB HTML como cualquier otro tipo de arquitectura y/o plataforma pueda utilizar.
+
+== 2. Requisitos 
+Para el uso de la aplicación se requiere un browser compatible con HTML5. La siguiente es una lista de los distintos Sistemas Operativos y browsers en los que fué probada la aplicación:
+
+*  Internet Explorer 11
+* Mozilla Firefox 31+
+* Google Chrome 35+ y 42-
+* Safari X
+
+Para la ejecución se requiere una versión de java JSDK 1.7 o 1.8 
+
+== 3. Instalación
+La ejecución de este módulo es muy simple. Previamente es necesario contar con JSDK 1.7 o 1.8 instalado y correctamente configurado. Se debe descargar el linl:../../../bin/deamond.jar[deamond.jar] y hacer doble click sobre el mismo. Luego se presentará una ventana indicando que el servicio se encuentra activo. 
+
+== 4. Integración
+Una vez iniciada la aplicación, la misma toma el puerto 12555 y levanta un servidor HTTP brindando servicios rest con el objetivo que el browser se comunique por medio de este protocolo con la aplicación, a continuación se describen los servicios que brinda: 
+
+.Servicios REST
+|===
+|Servicio|Metodo|URL|Param
+
+|Estado del servicio
+|GET
+|http://localhost:12555/status
+|OUTPUT:{"success": true,"idItemCertificate": 0}
+
+|Obtener los certificados provistos para firmar
+|GET
+|http://localhost:12555/getOSCertificates
+|OUTPUT: {"success":true,"msg":"Operacion realizada con exito","result":[{"index":0,"certificate":{"email":"jmcarrascal@gmail.com","cn":"Juan Manuel Carrascal","ou":"","o":"","l":"","st":"","serialnumber":"","c":"","t":""},"label":"Juan Manuel Carrascal (MooreaCA)"}
+
+|Subir archivo a firmar en B64
+|POST
+|http://localhost:12555/uploadB64Doc
+|INPUT: {"b64":"LD...", "filename":"nombrearchivo.pdf"} OUTPUT:{"success":true, "b64":"LD..." }
+
+|Obtener Imagen de la primer pagina del PDF
+|GET
+|http://localhost:12555/getFirstPageImage
+|OUTPUT:{"success":true, "b64":"LD..." }
+
+|Firmar Documento
+|POST
+|http://localhost:12555/signDoc
+|INPUT: {"idCertificate":0,"retrieveB64": true, "QrPos":{"x":150, "y":150}} OUTPUT:{"success":true, "b64":"LD..." }
+
+|===
+
+== 5. Ejemplo
+A continuación se proporciona un ejemplo ALL IN ONE link:../../source/signer/index.html[el cual puede ser ejecutado haciendo click aqui]

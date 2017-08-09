@@ -1,0 +1,70 @@
+
+<ul class="actions-list">
+	<!-- BAM -->
+	<li ng-if="show_actions && !isBAM">
+		<a class="" ng-click="bam(current_instance.id)">
+			<span data-toggle="tooltip" tooltip class="hovertip flow-icon flowiconHistory" data-placement="bottom" title="Flujo" width="17"></span>
+		</a>
+	</li>
+	<!-- HISTORY -->
+	<li ng-if="show_actions && !isHistory">	
+		<a class="" ng-click="history(current_instance.id)" data-toggle="modal"  data-target="#viewHistory" >
+			<!-- <img data-toggle="tooltip" data-placement="bottom" tooltip title="Ver Historial" src="src/img/icons/view-history.png"/> -->
+			<i tooltip data-toggle="tooltip" data-placement="bottom" title="Historial"  class="fa fa-history"></i>
+		</a>
+	</li>
+	<li ng-if="current_instance.instance.current_task.external_query">
+		<a ng-click="get_log(current_instance.id)" data-target="#bitacora" data-toggle="modal">
+		<span tooltip data-toggle="tooltip" data-placement="bottom" title="{{current_instance.instance.current_task.external_query_description}}" class="code code-white"></span></a>
+	</li>
+	<!-- EVALUATE -->
+	<li ng-if="current_instance.instance.current_task.possibilities.length != 0 && current_instance.instance.current_task.component_type == 'EVALUATE' && !canEvaluate">	
+		<a class="" ng-click="evaluate(current_instance, current_instance.instance.current_task.component_evaluate)" data-toggle="tooltip" data-placement="bottom" title="Evaluar"  >
+			<!-- <img data-toggle="tooltip" data-placement="bottom" tooltip title="Evaluar" src="src/img/icons/evaluate.png"/> -->
+			<i data-toggle="tooltip" data-placement="bottom" tooltip title="Evaluar" class="fa fa-check-square-o"></i>
+		</a>
+	</li>
+	<!-- ACTIONS -->
+	<li class="dropdown" ng-if="current_instance.instance.current_task.possibilities.length != 0 && current_instance.instance.current_task.component_type != 'EVALUATE' && !creation_mode || current_instance.instance.current_task.possibilities.length != 0 && canEvaluate && !creation_mode">
+		<a class="dropdown-toggle" >
+		<!-- <img data-toggle="tooltip" tooltip data-placement="bottom" title="Acciones" src="src/img/icons/actions.png"/> -->
+		<i data-toggle="tooltip" tooltip data-placement="bottom" title="Acciones" class="fa fa-th"></i>
+		</a>
+
+		<ul class="dropdown-menu combo-actions">
+			<!-- FORM ACTIONS-->
+			<ul ng-show="(current_instance.instance.current_task.component_type == 'FORM' && !isRender) && !current_instance.instance.current_task.bulkload_enabled">
+				<li class="title">EDITAR FORMULARIOS</li>
+				<li ng-repeat="form in current_instance.instance.current_task.forms" ng-click="render(form, current_instance.id, current_instance.header.name, current_instance)" class="links"> 
+					<a>{{form.spec.header.name}}</a> 
+				</li> 
+			</ul>
+			<!-- BULKLOAD-->
+			<ul ng-show="current_instance.instance.current_task.bulkload_enabled">
+				<li class="title">CARGAR FORMULARIOS</li>
+				<li ng-repeat="form in current_instance.instance.current_task.forms" ng-click="bulkload(form, current_instance.id, current_instance.header.name, current_instance)" class="links"> 
+					<a>{{form.spec.header.name}}</a> 
+				</li> 
+			</ul>
+			<!--PROCESS ACTIONS -->
+			<ul> 
+				<li class="title" ng-click="console.info('###############',current_instance)">ACCIONES</li>
+				<li ng-repeat="possibility in current_instance.instance.current_task.possibilities" class="links" ng-click="action(current_instance.id, current_instance.instance.current_task, possibility, current_instance.header.name, current_instance)"> 
+					<a>{{possibility.possibility_description}}</a>
+				</li>
+				<li ng-if="current_instance.instance.current_task.component_type == 'SUBPROCESS'" class="links" ng-click="add_subprocess(current_instance)"> 
+					<a>{{current_instance.instance.current_task['subprocess_call']}}</a> 
+				</li> 
+			</ul>
+			<!-- <ul ng-if="can_access('TEMPLATE_PUBLICATION') && is_dashboard">
+				<li class="title">ACUERDO MARCO</li>
+				<li ng-show="instance.header.is_template == 'false'" class="links" ng-click="set_template_status(instance.id, 'true')">
+					<a>Publicar</a> 
+				</li>
+				<li ng-show="instance.header.is_template == 'true'" class="links" ng-click="set_template_status(instance.id, 'false')">
+					<a>Despublicar</a> 
+				</li>
+			</ul> -->
+		</ul>
+	</li>
+</ul>

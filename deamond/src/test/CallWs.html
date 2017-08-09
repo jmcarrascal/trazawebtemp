@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+
+
+</head>
+<body>
+
+	<div id="getOSCertificates">
+		<a>getOSCertificates</a>
+	</div>
+	<div id="uploadB64Doc">
+		<a>uploadB64Doc</a>
+	</div>
+
+
+</body>
+<script type="text/javascript">
+
+(function() {
+	function connect() {
+		var socket;
+		var host = "ws://localhost:8025/websockets/getCertificates";
+
+		try {
+			var socket = new WebSocket(host);
+
+			message('<p class="event">Socket Status: ' + socket.readyState);
+
+			socket.onopen = function() {
+				message('<p class="event">Socket Status: ' + socket.readyState
+						+ ' (open)');
+			}
+
+// 			socket.onmessage = function(msg) {
+// 				console.log(msg.data);
+// 				var text = '{"employees":[' +
+// 				'{"firstName":"John","lastName":"Doe" },' +
+// 				'{"firstName":"Anna","lastName":"Smith" },' +
+// 				'{"firstName":"Peter","lastName":"Jones" }]}';
+
+// 				obj = JSON.parse(msg.data);
+// 				console.log(msg.data);
+// 				console.log(obj);
+				
+// 			}
+
+			socket.onclose = function() {
+				message('<p class="event">Socket Status: ' + socket.readyState
+						+ ' (Closed)');
+			}
+
+		} catch (exception) {
+			message('<p>Error' + exception);
+		}
+
+		function send(message) {
+			
+			try {
+				socket.send(message);	
+				socket.onmessage = function(message) {
+			        alert(message.data); 			        
+			    }
+			} catch (exception) {
+				message('<p class="warning">');
+			}
+			
+		}
+
+		function message(msg) {
+			//$('#chatLog').append(msg + '</p>');
+		}
+		
+		var handleSendClick = function(evt) {
+			send("Juan");
+		};
+
+		var handleUploadB64Doc = function(evt) {
+			 
+			send("");
+		};
+
+		
+		document.getElementById("getOSCertificates").addEventListener('click', handleSendClick, false);
+		document.getElementById("uploadB64Doc").addEventListener('click', handleUploadB64Doc, false);
+		//send("Juan");
+
+	}//End connect
+	
+connect();
+
+})();
+	</script>
+</html>

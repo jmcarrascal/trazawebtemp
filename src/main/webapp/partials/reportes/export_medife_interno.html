@@ -1,0 +1,116 @@
+<div class="content">
+	<alert-message></alert-message>
+	<alert-error></alert-error>
+
+
+	<div class="form-base1">
+
+		<div class="row-fluid">
+			<h4>Exportación de transacciones de Ventas</h4>
+		</div>
+		<br> <br>
+		<div class="row-fluid">
+			<div class="col-xs-4">
+				<label class="control-label"> Ingrese fecha desde
+					(dd-mm-aaaa Ej: 01-01-2015):</label> <input type="text"
+					ng-model="busqueda.fechaDesde" value="01-01-2001" />
+			</div>
+			<div class="col-xs-4">
+				<label class="control-label"> Ingrese fecha hasta
+					(dd-mm-aaaa Ej: 01-02-2015):</label> <input type="text"
+					ng-model="busqueda.fechaHasta" value="01-01-2017" />
+			</div>
+			<div class="col-xs-4">
+				<label class="control-label"> Ingrese en numero de agendado:</label>
+				<input type="number" ng-model="busqueda.genteNr" />
+			</div>
+		</div>
+		
+		<br>
+<br>
+		<div class="row-fluid">
+			<div class="col-xs-2">
+				<div align="right">
+					<input type="button" ng-click="getTransacMedifeInterno()"
+						class="btn btn-small btn-primary" value="Cargar Facturas" />
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<div align="right">
+					<input type="button" ng-click="getTransacRemitos()"
+						class="btn btn-small btn-primary" value="Cargar Remitos" />
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<div ng-show="facturas.length != 0" class="col-xs-5">
+					<div align="left">
+						<input type="button" ng-click="generateExport()"
+							class="btn btn-small btn-primary"
+							value="Generar exportación Medife Interno" />
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<div ng-show="facturas.length != 0" class="col-xs-5">
+					<div align="left">
+						<input type="button" ng-click="generateExportIndosur()"
+							class="btn btn-small btn-primary"
+							value="Generar exportación formato IOSPER" />
+					</div>
+				</div>
+			</div>			
+			<div class="col-xs-2">
+				<div ng-show="facturas.length != 0" class="col-xs-5">
+					<div align="left">
+						<input type="button" ng-click="generateExport()"
+							class="btn btn-small btn-primary"
+							value="Generar exportación OSDOP" />
+					</div>
+				</div>
+			</div>
+
+			<br> <br> <br> <br> <br>
+		</div>
+		<div>
+			<div ng-if="facturas.length != 0" ng-cloak
+				class="box-content mtop box-view"
+				ng-class="{'pushmenu-push' : toggle.state}">
+
+				<ul>
+					<div class="counter" style="min-width: 528px; max-width: 576px">
+						<span>{{facturas.length}}</span> de <span>{{facturas.length}}</span>
+					</div>
+
+					<li class="boxes fade1" tabindex="0"
+						ng-repeat="current_factura in facturas">
+						<div>
+							<h4>
+								<b>{{ 'Factura ' + current_factura.letra + ' ' +
+									current_factura.prefijo + '-' + current_factura.nrComprob+ ' /
+									' + (current_factura.transacNr) }}</b>
+							</h4>
+							<span class="instance-description">{{current_factura.nrAfiliado
+								+ ' '+ current_factura.nombreAfiliado + ' '+
+								current_factura.apellidoAfiliado}}</span>
+						</div>
+
+						<ul>
+							<li class="col-md-2"><span>Neto Gravado</span><br /> <b>{{current_factura.netoGrav
+									| currency}}</b></li>
+							<li class="col-md-2"><span>Neto No Gravado</span><br /> <b>{{current_factura.netoNoGrav
+									| currency}}</b></li>
+							<li class="col-md-3"><span>Fecha creación</span><br /> <b>{{current_factura.fecha
+									| date:'dd-MM-yyyy HH:mm:ss'}}</b></li>
+							<li class="col-md-3"><span>Selección</span><br /> <b><input
+									type="checkbox" checklist-model="selections.ids"
+									checklist-value="current_factura.transacNr"> </b></li>
+
+
+						</ul> <br>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+</div>

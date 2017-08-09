@@ -1,0 +1,38 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel();closeModal();">&times;</button>
+	<h4 class="modal-title">{{title}}</h4>
+</div>
+	<div class="modal-body">
+		<div class="form-base form_content">
+
+			<div class="row">
+				<h4>Medicamentos con GTIN Duplicado GTIN: ({{medicamento_duplicado._gtin}})</h4>
+			</div>
+			<alert-error></alert-error>
+
+			<br>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label">Seleccione de medicamento que desea agregar</label>
+						<ui-select ng-model="medicamento.idArticulo" theme="select2">
+							<ui-select-match placeholder="Seleccione un medicamento">{{$select.selected.descripC}}</ui-select-match>
+							<ui-select-choices
+							repeat="medi.id as medi in medicamentosDuplicados | propsFilter: {id: $select.search, descripC: $select.search}">
+							<div ng-bind-html="medi.descripC | highlight: $select.search"></div>
+						</ui-select-choices> </ui-select>
+					</div>
+				</div>
+
+			</div>
+
+
+
+			<div class="modal-footer text-center">
+				<input type="button" class="btn btn-small btn-primary"
+				value="Ingresar" ng-click="addUnitMedicamento()">
+			</div>
+
+		</div>
+
+	</div>

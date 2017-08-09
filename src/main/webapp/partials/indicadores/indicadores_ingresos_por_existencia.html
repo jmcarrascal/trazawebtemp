@@ -1,0 +1,66 @@
+<div class="content">
+<alert-message></alert-message>
+<alert-error></alert-error>
+
+<div class="form-base1">
+
+	<div class="row-fluid">
+		<h4>Indices Ingreso de Mercaderia</h4>
+	</div>
+</div>
+
+<div class="row-fluid">
+	<div class="col-xs-4">
+		<label class="control-label"> Ingrese el año (AAAA) en el cual
+			desea operar:</label> <input type="number" ng-model="anio" />
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="col-xs-4">
+		<label class="control-label">Existencias:</label>
+		<ui-select multiple ng-model="existencia.selected" theme="select2"
+			ng-disabled="disabled" style="min-width: 320px; max-width: 800px;">
+		<ui-select-match placeholder="Seleccione una existencia...">{{
+		$item.descrip}}</ui-select-match> <ui-select-choices
+			repeat="existencia in existenciaList | propsFilter: {descrip: $select.search}"
+			refresh-delay="300">
+		<div ng-bind-html="existencia.descrip | highlight: $select.search"></div>
+		<small>{{existencia.nr}}</small> </ui-select-choices> </ui-select>
+
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="col-xs-10">
+		<div align="left">
+
+			<input type="button" ng-click="generateIndice()"
+				class="btn btn-small btn-primary" value="Generar indice" />
+		</div>
+	</div>
+</div>
+
+
+<div class="row-fluid">
+	<div class="col-xs-6">
+	<br>
+		<label class="control-label">Cantidad ingresos por existencia corte por mes</label>
+		<canvas id="data_cant_por_existencia" class="chart chart-line"
+			chart-data="data_cant_por_existencia"
+			chart-labels="labels_cant_por_existencia" chart-legend="true"
+			chart-series="series_cant_por_existencia" chart-click="onClick">
+		</canvas>
+	</div>
+</div>
+
+<div class="row-fluid" ng-if="mes_filter != ''">
+	<div class="col-xs-6">
+	<br>
+		<label class="control-label">Cantidad ingresos por existencia mes {{mes_filter}} corte por dia</label>
+		<canvas id="data_cant_por_existencia_mes" class="chart chart-line"
+			chart-data="data_cant_por_existencia_mes"
+			chart-labels="labels_cant_por_existencia_mes" chart-legend="true"
+			chart-series="series_cant_por_existencia_mes" >
+		</canvas>
+	</div>
+</div>
+</div>

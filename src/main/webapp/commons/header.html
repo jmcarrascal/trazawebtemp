@@ -1,0 +1,77 @@
+<div ng-if="!isActive('/login')">
+
+<md-sidenav class="md-sidenav-left"
+        md-component-id="left"
+        md-whiteframe="4" 
+        md-disable-backdrop 
+        close-menu>
+
+      <a ng-click="toggleLeft()" style="width:41px">
+        <i class="fa fa-bars fa-2x menu-btn"></i>
+      </a>		
+      <md-content layout-padding>
+         <div ng-show="userProfiles.administrador==userSession.rol"> 
+          <ng-include src="'commons/menu.html'"></ng-include>
+        </div>
+        <div ng-show="userProfiles.operador==userSession.rol"> 
+          <ng-include src="'commons/menuoperador.html'"></ng-include>
+        </div>
+        <div ng-show="userProfiles.ingreso_devoluciones==userSession.rol"> 
+          <ng-include src="'commons/menu_ingreso_devoluciones.html'"></ng-include>
+        </div>
+        <div ng-show="userProfiles.ventas==userSession.rol"> 
+          <ng-include src="'commons/menu_ventas.html'"></ng-include>
+        </div>
+        <div ng-show="userProfiles.oficial_cuentas==userSession.rol"> 
+          <ng-include src="'commons/menu_oficial_cuentas.html'"></ng-include>
+        </div>
+        <!-- <md-button ng-click="close()" class="md-primary">
+          Close Sidenav Right
+        </md-button> -->
+        <div class="footer-logo">
+        <img src="img/cipres_logo_app.png"> <span> powered by <b>Ciprés</b></span>
+        </div>
+      </md-content>
+
+    </md-sidenav>
+
+<!-- Fixed navbar -->
+
+<div class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="img/logo_cipres.png" alt=""></a>
+    </div>
+    <div ng-show="isAuthenticated()">
+      <div class="navbar-collapse collapse">
+        <!-- <div ng-show="userProfiles.administrador==userSession.rol"> 
+          <ng-include src="'commons/menu.html'"></ng-include>
+        </div
+        <div ng-show="userProfiles.operador==userSession.rol"> 
+          <ng-include src="'commons/menuoperador.html'"></ng-include>
+        </div>
+        <div ng-show="userProfiles.ingreso_devoluciones==userSession.rol"> 
+          <ng-include src="'commons/menu_ingreso_devoluciones.html'"></ng-include>
+        </div>
+        <div ng-show="userProfiles.ventas==userSession.rol"> 
+          <ng-include src="'commons/menu_ventas.html'"></ng-include>
+        </div>-->    
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  {{getUsername();}} <b class="caret"></b></a>
+            <ul class="dropdown-menu">                              
+              <li><a href="/cipres/j_spring_security_logout" ng-click="logout()"><i class="fa fa-sign-out"></i> Salir</a></li>    
+            </ul>
+          </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+</div>

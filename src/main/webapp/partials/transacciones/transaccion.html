@@ -1,0 +1,369 @@
+<style>
+.red {
+	color: red;
+}
+</style>
+<div class="content">
+	<div ng-show="message !== null" class="alert alert-success"
+		role="alert">
+		<button type="button" class="close" ng-click="hideAlerts()"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<strong>{{message}}</strong>
+	</div>
+	<div ng-show="error !== null" class="alert alert-danger" role="alert">
+		<button type="button" class="close" ng-click="hideAlerts()"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<strong>{{error}}</strong>
+	</div>
+	<div ng-show="warning !== null" class="alert alert-warning"
+		role="alert">
+		<button type="button" class="close" ng-click="hideAlerts()"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<strong>{{warning}}</strong>
+	</div>
+	<form class="form-base1" input-validation-form
+		ng-submit="formSubmitTransac(form_pedidodeventa)"
+		name="form_pedidodeventa" autocomplete="off" novalidate>
+		<div class="form_content container-fluid" id="modalPedidoDeVenta">
+			<div class="row">
+				<div class="col-xs-10">
+					<div class="form_title">
+						<button onclick="goBack()">
+							<i class="fa fa-arrow-left" aria-hidden="true"></i> |
+						</button>
+						{{agendado.descripC}} - {{tipoComprobante.descripcion}}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<!-- 				<div class="col-xs-2"> -->
+				<!-- 					<div class="form-group"> -->
+				<!-- 						<label class="control-label">Nr:</label> <input -->
+				<!-- 						class="form-control" type="text" ng-model="newTran.transacNr" disabled /> -->
+				<!-- 					</div> -->
+				<!-- 				</div> -->
+				<div class="col-xs-3">
+					<div class="form-group">
+						<label disabled class="control-label">Cliente:</label> <input
+							class="form-control" type="text" ng-model="agendado.descripC"
+							disabled />
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<div input-validation class="form-group">
+						<label class="control-label">Condición de venta:</label>
+						<ui-select ng-model="newTran.condiciones" theme="select2"
+							name="condiciones" on-select="validate()" ng-required="true">
+						<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+						<ui-select-choices
+							repeat="condicionVenta.codigo as condicionVenta in condicionesDeVenta | propsFilter: {codigo: $select.search, descrip: $select.search}">
+						<div
+							ng-bind-html="condicionVenta.descrip | highlight: $select.search"></div>
+						</ui-select-choices> </ui-select>
+						<span input-validation-required>Campo obligatorio.</span>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<div input-validation class="form-group">
+						<label class="control-label">Vendedor:</label>
+						<ui-select ng-model="newTran.vendedor" theme="select2"
+							name="vendedor" ng-required="true"> <ui-select-match
+							placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+						<ui-select-choices
+							repeat="vendedor.codigo as vendedor in vendedores | propsFilter: {codigo: $select.search, descrip: $select.search}">
+						<div ng-bind-html="vendedor.descrip | highlight: $select.search"></div>
+						</ui-select-choices> </ui-select>
+						<span input-validation-required>Campo obligatorio.</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th width="1"></th>
+							<th>Artículo</th>
+							<th width="15%">Cantidad</th>
+							<th width="15%">Precio Lista</th>
+							<th width="15%">Precio a Cobrar</th>
+							<th width="5%">Bonif</th>
+							<th width="5%">IVA %</th>
+							<th width="10%">SubTotal</th>
+							<th width="3%"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in items">
+							<td><button type="button"
+									class="btn btn-danger btn-xs btn-fw"
+									ng-click="removeItem(item)">
+									<i class="fa fa-trash-o" aria-hidden="true"></i>
+								</button></td>
+							<td>
+								<table width="100%">
+									<tr>
+										<td><input type="text" class="form-control"
+											ng-model="item.articulo.descripC" disabled /></td>
+										<td style="vertical-align: top" width="1">
+											<button type="button" class="btn btn-secondary btn-xs btn-fw"
+												ng-click="searchArticulo(item, $index)"
+												id="{{ 'search-' + $index }}">
+												<i class="fa fa-search"></i>
+											</button>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<td><input type="number" id="{{ 'cant-' + $index }}"
+								class="form-control" ng-model="item.cantidad"
+								ng-change="updateTotal()" ng-enter="preventDefault()" min="1" />
+							</td>
+							<td><input type="text" class="form-control text-right"
+								ng-model="item.precioUnitario" disabled /></td>
+							<td><input type="text"
+								ng-change="precioACobrarChanged(item)"
+								class="form-control text-right" ng-model="item.precioACobrar"
+								ng-enter="addItemFromLastItem($index)"
+								ng-f4="formSubmitTransac()" /></td>
+							<td><input type="number"
+								ng-change="bonificacionChanged(item)" step="1"
+								class="form-control text-right" ng-model="item.bonificacion"
+								ng-enter="addItemFromLastItem($index)" min="0" max="100" /></td>
+							<td><input type="text" class="form-control text-right"
+								ng-model="item.porcentajeIva" disabled /></td>
+							<td><input type="text" class="form-control text-right"
+								ng-model="item.subTotal" disabled /></td>
+							<td>
+								<button ng-if="$last" style="" :1px" type="button"
+									class="btn btn-primary btn-xs btn-fw"
+									ng-click="addItemFromLastItem($index)">
+									<i class="fa fa-plus" aria-hidden="true"></i>
+								</button>
+							</td>
+
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td class="text-right"><strong>SUBTOTAL</strong></td>
+							<td class="text-right"><strong>{{subtotal}}</strong></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td class="text-right"><strong>IVA</strong></td>
+							<td class="text-right"><strong>{{subtotalImpuestos}}</strong></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td class="text-right"><strong>TOTAL</strong></td>
+							<td class="text-right"><strong>{{total}}</strong></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="control-label">Orden de Compra</label>
+					<div class="checkbox" style="margin-top: 0px">
+						<input type="checkbox" ng-model="checked">
+						<div input-validation ng-if="checked">
+							<label class="control-label"> <input type="number"
+								class="form-control" id="usr" name="ordenCompra"
+								ng-model="newTran.ordenCompra" min="1" max="99999999"
+								ng-enter="preventDefault()" ng-required="true" />
+								<div id="errors"
+									ng-show="form_pedidodeventa.$invalid && (form_pedidodeventa.$submitted || form_pedidodeventa.$dirty)">
+									<span ng-show="form_pedidodeventa.ordenCompra.$error.max">
+										Orden de Compra inválida</span>
+								</div> <span input-validation-required>Campo obligatorio.</span>
+							</label>
+						</div>
+						<p class="form-control-static" ng-if="checked == false">Agregar
+							Orden de Compra</p>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<div input-validation class="form-group col-xs-7">
+						<label class="control-label">Fecha entrega:</label> <input
+							class="form-control" type="date" ng-model="newTran.fechaEntrega"
+							name="fechaEntrega" id="fechaEntrega" placeholder="dd-MM-yyyy"
+							ng-focus="setMin()" max="2100-01-01" min="{{dateMin}}"
+							ng-required="tipoComprobante.nr == 8" ng-enter="preventDefault()" />
+						<div id="errors"
+							ng-show="form_pedidodeventa.$invalid && (form_pedidodeventa.$submitted || form_pedidodeventa.$dirty)">
+							<span style="color: red"
+								ng-show="form_pedidodeventa.fechaEntrega.$error.min">La
+								fecha no cumple con el mínimo establecido</span> <span
+								style="color: red"
+								ng-show="form_pedidodeventa.fechaEntrega.$error.max">La
+								fecha no cumple con el máximo establecido</span> <span
+								input-validation-required>Campo obligatorio.</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<div input-validation class="form-group">
+						<label class="control-label">Domicilio de entrega:</label>
+						<ui-select ng-model="newTran.nrDomicilioEnt" theme="select2"
+							name="nrDomicilioEnt" on-select="validate()" ng-required="true">
+						<ui-select-match allow-clear="true"
+							placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+						<ui-select-choices
+							repeat="domicilioEntrega.codigo as domicilioEntrega  in domiciliosDeEntrega | propsFilter: {codigo: $select.search, descrip: $select.search}">
+						<div
+							ng-bind-html="domicilioEntrega.descrip | highlight: $select.search"></div>
+						</ui-select-choices> </ui-select>
+						<span input-validation-required>Campo obligatorio.</span>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<div input-validation class="form-group">
+						<label class="control-label">Afiliado:</label>
+						<ui-select ng-model="newTran.benef" theme="select2" name="benef"
+							ng-required="false" allow-clear="true"> <ui-select-match
+							allow-clear="true" placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+						<ui-select-choices
+							repeat="domicilioEntrega.codigo as domicilioEntrega   in domiciliosDeEntregaAlternativo | propsFilter: {codigo: $select.search, descrip: $select.search}">
+						<div
+							ng-bind-html="domicilioEntrega.descrip | highlight: $select.search"></div>
+						</ui-select-choices> </ui-select>
+						<span input-validation-required>Campo obligatorio.</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label">Observaciones:</label>
+						<textarea class="form-control" name="observaciones"
+							ng-model="newTran.observaciones"></textarea>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-xs-3">
+
+					<label class="control-label">Adjuntar archivos:</label>
+					<button class="btn btn-info" ngf-select multiple
+						ng-model="fileUploader" accept="image/*, .doc, .pdf"
+						ngf-max-height="1000" ngf-max-size="2MB" ngf-keep="true"
+						ngf-max-files="5" ng-model="fileUploader">
+						<i class="fa fa-upload" aria-hidden="true"></i> Seleccionar
+						Archivos
+					</button>
+				</div>
+				<div class="col-xs-6">
+					<ul>
+						<li ng-repeat="file in fileUploader" style="font: smaller"><a
+							ng-click="deleteFile($index)"><i class="fa fa-times"
+								aria-hidden="true"></i></a> {{file.name}} {{file.$errorParam}}</li>
+					</ul>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 text-center">
+						<!-- <input type="button" class="btn btn-small btn-danger" value="Volver" ng-click="window.history.back(-1);" /> -->
+						<input type="submit" class="btn btn-small btn-primary"
+							value="Emitir" />
+					</div>
+				</div>
+				<div id="modalSelectArticulo" on-modal-close="closeSearchArticulo"
+					class="modal" tabindex="-1" role="dialog"
+					aria-labelledby="modalFormLabel" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">&times;</button>
+								<h2 class="modal-title">Articulos</h2>
+							</div>
+							<div class="modal-body">
+								<div class="form-base form_content">
+									<div class="row">
+										<div class="col-xs-3">
+											<label class="control-label">Buscar por
+												código/nombre:</label> <input class="form-control" type="text"
+												ng-model="articuloSearchText"
+												ng-enter="updateSearchArticulo('init')"
+												id="searchByCodeName" />
+										</div>
+										<div class="col-xs-3">
+											<button ng-click="updateSearchArticulo('init')"
+												style="margin-top: 16px" id="searchByCodeName"
+												class="btn btn-secondary align-middle
+												">
+												<i class="fa fa-search" aria-hidden="true" />
+											</button>
+										</div>
+									</div>
+								</div>
+								<table class="table">
+									<thead>
+										<tr>
+											<th width="1">Seleccionar</th>
+											<th>ID</th>
+											<th>Nombre</th>
+											<th>Stock</th>
+											<th>IVA %</th>
+											<th>Precio</th>
+											<th>Prox Fecha de Venc</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="articulo in articulos">
+											<td class="text-center"><button type="button"
+													class="btn btn-primary btn-xs btn-fw"
+													ng-click="selectSeachArticulo(articulo)">
+													<i class="fa fa-plus" aria-hidden="true"></i>
+												</button></td>
+											<td>{{articulo.id}}</td>
+											<td>{{articulo.descripcion}}</td>
+											<td ng-class="{'red': articulo.stock<1}">{{articulo.stock}}</td>
+											<td>{{articulo.impuestos.alicuota}}</td>
+											<td>{{articulo.precio1}}</td>
+											<!-- Fecha de ejemplo, acomodar cuando la tengamos -->
+											<td
+												ng-if="articulo.fechaVencimientoMasProxima != null && articulo.stock != 0"
+												ng-style="getStyle(articulo.fechaVencimientoMasProxima)">{{articulo.fechaVencimientoMasProxima
+												| date:"dd-MM-yyyy"}}</td>
+											<td ng-if="articulo.fechaVencimientoMasProxima == null">
+												-</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<div class="col-xs-12 text-center">
+									<input type="button" class="btn btn-small btn-danger"
+										value="Cerrar" data-dismiss="modal" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</form>
+</div>

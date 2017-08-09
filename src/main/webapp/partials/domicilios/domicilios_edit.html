@@ -1,0 +1,264 @@
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+				<form input-validation-form ng-submit="formSubmit(form_domicilio)" name="form_domicilio" autocomplete="off" novalidate>
+					<div ng-controller="DomiciliosEditController">
+						<div class="form_content container-fluid">
+
+
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h2 class="modal-title">{{ domicilio.id === undefined ? "Alta de domicilio" : "Edición de domicilio" }}</h2>
+							</div>
+
+							<div class="alert alert-danger" ng-show="error != null">
+								<a class="close" ng-click="error = null">×</a> <strong>{{error}}</strong>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-2">
+									<div class="form-group">
+										<label class="control-label">Nr:</label> <input
+										class="form-control" type="text" ng-model="domicilio.id" disabled />
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div input-validation class="form-group">
+										<label class="control-label">Descripción:</label> <input
+										class="form-control" type="text"
+										name="descripcion"
+										ng-model="domicilio.descripcion" required /> <span
+										input-validation-required>Campo obligatorio.</span>
+									</div>
+								</div>
+								<div class="col-xs-4">
+									<div class="form-group">
+										<label class="control-label">Contacto:</label> <input
+										class="form-control" type="text" ng-model="domicilio.contacto" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-4">
+									<div input-validation class="form-group">
+										<label class="control-label">Búsqueda:</label> 
+										<!-- <angucomplete
+											id="completeDomicilio"
+											placeholder="Ingrese el domicilio a buscar" 
+											pause="400" 
+											selectedobject="domicilioSearch"
+											localdata="locations"
+											searchfields="searchString"
+											titlefield="formatted_address"
+											minlength="6" 
+											inputclass="form-control form-control-small">
+										</angucomplete> -->
+
+										<angucomplete 
+											placeholder="Ingrese el domicilio a buscar" 
+											pause="400"
+											minlength=5
+											selectedobject="domicilioSearch"
+											url="{{$root.services_prefix}}/rest/agendado/searchDomicilio/"
+											titlefield="formatted_address"
+											inputclass="form-control form-control-small">
+										</angucomplete>
+
+									</div>
+								</div>
+								<div class="col-xs-4">
+									<div input-validation class="form-group">
+										<label class="control-label">Domicilio:</label> 
+										<input
+											class="form-control" type="text"
+											name="domicilio"
+											ng-model="domicilio.domicilio" required>
+										</input> 
+										<span
+										input-validation-required>Campo obligatorio.</span>
+									</div>
+								</div>
+
+
+				<div class="col-xs-4">
+					<div class="form-group">
+						<label class="control-label">CP:</label> <input
+						class="form-control" type="text"
+						ng-model="domicilio.codigoPostal" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<div input-validation class="form-group">
+						<label class="control-label">Localidad:</label> <input
+						class="form-control" type="text"
+						name="ctacorriente"
+						ng-model="domicilio.localidad" required /> <span
+						input-validation-required>Campo obligatorio.</span>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div input-validation class="form-group">
+						<label class="control-label">Provincia:</label>
+						<ui-select ng-model="domicilio.provinciaId" theme="select2" name="provincia" on-select="validate()" ng-required="true"> <ui-select-match
+							placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+							<ui-select-choices
+							repeat="provincia.codigo as provincia in provincias | propsFilter: {codigo: $select.search, descrip: $select.search}">
+							<div ng-bind-html="provincia.descrip | highlight: $select.search"></div>
+						</ui-select-choices> </ui-select>
+						<span input-validation-required>Campo obligatorio.</span>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div input-validation class="form-group">
+						<label class="control-label">Provincia:</label> <input
+						class="form-control" type="text"
+						name="pais" ng-model="domicilio.domiciliosAnexo.strProvincia"
+						disable /> <span input-validation-required>Campo
+						obligatorio.</span>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div input-validation class="form-group">
+						<label class="control-label">Pais:</label> <input
+						class="form-control" type="text"
+						name="pais" ng-model="domicilio.pais"
+						required /> <span input-validation-required>Campo
+						obligatorio.</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label">Teléfono de Voz:</label> <input
+						class="form-control" type="text"
+						ng-model="domicilio.telefonoVoz" />
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label">Teléfono Movil:</label> <input
+						class="form-control" type="text"
+						ng-model="domicilio.telefonoMovil" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label">Teléfono de Emergencias:</label> <input
+						class="form-control" type="text"
+						ng-model="domicilio.telefonoEmergencias" />
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label">Teléfono Fax:</label> <input
+						class="form-control" type="text"
+						ng-model="domicilio.telefonoFax" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label">E-Mail:</label> <input
+						class="form-control" type="text" ng-model="domicilio.email" />
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label">Web:</label> <input
+						class="form-control" type="text" ng-model="domicilio.web" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div input-validation class="form-group">
+						<label class="control-label">Transporte:</label>
+						<ui-select ng-model="domicilio.transporte" theme="select2" name="transporte" on-select="validate()" ng-required="true">
+							<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+							<ui-select-choices repeat="transporte.codigo as transporte in transportes | propsFilter: {codigo: $select.search, descrip: $select.search}">
+								<div ng-bind-html="transporte.descrip | highlight: $select.search"></div>
+							</ui-select-choices>
+						</ui-select>
+						<span input-validation-required>Campo obligatorio.</span>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label">GLN:</label> <input
+						class="form-control" type="text" ng-model="domicilio.gln" />
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label">Coordenadas latitud:</label> <input
+						class="form-control" type="text" ng-model="domicilio.domiciliosAnexo.latitud"/>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="form-group">
+						<label class="control-label">Coordenadas longitud:</label> <input
+						class="form-control" type="text" ng-model="domicilio.domiciliosAnexo.longitud"/>
+					</div>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-xs-3">
+					<div class="form-inline">
+						<div class="checkbox">
+							<label><input type="checkbox"
+								ng-model="domicilio.domicilioPrincipal" ng-true-value="-1" ng-false-value="0" /> Domicilio
+								Principal</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-3">
+						<div class="form-inline">
+							<div class="checkbox">
+								<label><input type="checkbox"
+									ng-model="domicilio.domicilioEntrega" ng-true-value="-1" ng-false-value="0" /> Domicilio Entrega</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-3">
+							<div class="form-inline">
+								<div class="checkbox">
+									<label><input type="checkbox"
+										ng-model="domicilio.domicilioCobranza" ng-true-value="-1" ng-false-value="0" /> Domicilio Cobranza</label>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-3">
+								<div class="form-inline">
+									<div class="checkbox">
+										<label><input type="checkbox"
+											ng-model="domicilio.domicilioMailing" ng-true-value="-1" ng-false-value="0" /> Domicilio Mailing</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<hr />
+								</div>
+							</div>
+							
+							<div class="modal-footer">
+								<div class="col-xs-12 text-center">
+									<input type="button" class="btn btn-small btn-danger" value="Cancelar" ng-click="$parent.formCancel()" />
+									<input type="submit" class="btn btn-small btn-primary" value="{{ domicilio.id === undefined ? 'Agregar' : 'Modificar' }}" />
+								</div>
+							</div>
+							
+						</div>
+					</div>	
+				</form>
+		</div>
+	</div>

@@ -1,0 +1,169 @@
+
+
+<style>
+	.fadee.ng-enter {
+		transition: 0.8s linear all;
+		opacity: 0;
+	}
+
+	/* The finishing CSS styles for the enter animation */
+	.fadee.ng-enter.ng-enter-active {
+		opacity: 1;
+	}
+</style>
+
+<!-- settings changer -->
+
+
+<div class="content">
+	<!-- Users table -->
+	<alert-message></alert-message>
+	<alert-error></alert-error>
+	<div class="form-base1">
+		<div class="row-fluid">
+			<h4>Gestión de {{title}}</h4>
+
+
+			<ul class="actions-header">
+				<li><button class="btn btn-primary" ng-click="newAgendado()">+ Nuevo Agendado</button></li>
+			</ul>
+			
+			<ul class="actions-header">
+				<li><button class="btn btn-warning" ng-click="showDomiciliosIncompletos()">Domicilios incompletos</button></li>
+			</ul>
+
+		</div>
+		<div class="form-base form_content">
+			<div class="row">
+				<div class="col-xs-3">
+					<label class="control-label">Filtrar por razón social o
+						Número:</label> <input class="form-control" type="text"
+						ng-model="busqueda.razonSocial" ng-enter="searchAgendado('init')"
+						placeholder="Ingrese parte del razon solcial..."
+						focus-on-condition="true"></input>
+					</div>
+
+
+					<div class="col-xs-2">
+						<label class="control-label">Filtrar por CUIT:</label> <input
+						class="form-control" type="text" ng-model="busqueda.cuit"
+						ng-enter="searchAgendado('init')"
+						placeholder="Ingrese parte del cuit..."></input>
+					</div>
+
+					<div class="col-xs-3">
+						<label class="control-label">Por descripción:</label>
+						<angucomplete 
+						placeholder="Ingrese una porción de la mercaderia" 
+						pause="400" 
+						selectedobject="selectedMercaderia"
+						url="rest/agendado/find/" 
+						titlefield="descripcion"
+						minlength="2" 
+						inputclass="form-control form-control-small">
+					</angucomplete>
+				</div>
+
+				<div class="col-xs-2">
+					<div class="form-group">
+						<label class="control-label">Relación:</label>
+						<ui-select 	ng-model="busqueda.relacionId" 
+									theme="select2"
+									on-select="searchAgendado('init')"
+									> 
+							<ui-select-match placeholder="Todos">{{$select.selected.descrip}}</ui-select-match>
+							<ui-select-choices repeat="relacion.codigo as relacion in relaciones | propsFilter: {codigo: $select.search, descrip: $select.search}">
+							<div ng-bind-html="relacion.descrip | highlight: $select.search"></div>
+							</ui-select-choices>
+						</ui-select>
+					</div>
+				</div>
+				<div class="col-xs-1">
+					<button ng-enter="searchAgendado('init')"
+							class="btn btn-secondary" style="margin-top:16px" ng-click="searchAgendado('init')">
+								<i class="fa fa-search" aria-hidden="true"/>
+					</button>
+				</div>
+		</div>
+	</div>
+</div>
+
+
+<div ng-show="agendados.length != 0" ng-cloak class="box-content mtop box-view" sidebar-directive="state" ng-class="{'pushmenu-push' : toggle.state}" tagged-infinite-scroll="get_items()" tagged-infinite-scroll-disabled="false">
+
+	<ul>
+		<div class="counter" style="min-width: 528px; max-width: 576px">
+			<span>{{agendados.length}}</span> de <span>{{total_items}}</span>
+
+			<div class="inline-block sortBy">
+				| <a ng-click="sort_by('instance.created_on')"
+				ng-class="{'dropup': is_active_sorting_asc('instance.created_on')}">
+				<span ng-class="{'bold': is_active_sorting('instance.created_on')}">Fecha</span>
+				<span class="caret"></span>
+			</a> <a ng-click="sort_by('id')"
+			ng-class="{'dropup': is_active_sorting_asc('id')}"> <span
+			ng-class="{'bold': is_active_sorting('id')}">Cercanía</span> <span
+			class="caret"></span>
+		</a> <a ng-click="sort_by('commiter.cn')"
+		ng-class="{'dropup': is_active_sorting_asc('commiter.cn')}"> <span
+		ng-class="{'bold': is_active_sorting('commiter.cn')}">Saldo</span>
+		<span class="caret"></span>
+	</a>
+</div>
+<moorea-select class="moorea-select inline-block middle" style="width: 200px;" placeholder="Filtrar por ..." showby="true" dataset="distinct_tasks" name="selected_filter_task" ng-change="set_filter_and_refresh(selected_filter_task)" ng-model="selected_filter_task"></moorea-select>
+</div>
+
+<li class="boxes fade1" tabindex="0" ng-repeat="current_agendado in agendados">
+	<div class="pull-right">
+		<button type="button" class="btn btn-info"
+		ng-click="showDomicilios(current_agendado)">Domicilios</button>
+
+		<button type="button" class="btn btn-info"
+		ng-click="showComprobante(current_agendado)">Comprobantes</button>
+
+		<button type="button" class="btn btn-primary"
+		ng-click="showProforma(current_agendado)">+ Proforma</button>
+
+		<button type="button" class="btn btn-primary"
+		ng-click="showPedidoDeVenta(current_agendado)">+ Pedido de venta</button>
+
+		<!-- DROPDOWN TRANSACCIONES-->
+		<div ng-if="false" class="dropdown inline-block">
+			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Transacciones
+			<span class="caret"></span></button>
+			<ul class="dropdown-menu">
+				<li><a ng-click="showPedidoDeVenta(current_agendado)">Pedido de venta</a></li>
+				<li><a href="#">Factura</a></li>
+			</ul>
+		</div>
+		<!-- FIN DROPDOWN TRANSACCIONES-->
+			
+		</div>
+		<div>
+			<h4 class="pointer" ng-click="preparedEdit(current_agendado.id)">
+				<b>{{current_agendado.descripC}}</b>
+			</h4>
+			<span ng-show="current_agendado.cliente == -1" class="label label-success">Cliente</span>
+			<span ng-show="current_agendado.proveedor == -1" class="label label-info">Proveedor</span>
+			<span class="instance-description">{{current_agendado.cuit}}</span>
+			
+		</div>
+		<span class="col-md-2 right">
+			<span>Saldo vs Crédito</span>
+			<div class="chart-container">
+				<canvas id="chart_168" class="chart chart-pie ng-isolate-scope" chart-data="dataSaldo[current_agendado.id]" chart-labels="labelsSaldo" height="81" width="163" style="width: 163px; height: 81px;"></canvas>
+			</div>
+			<!-- 					<saldo-bar value="{{ getAgendadoSaldo(current_agendado) }}"></saldo-bar> -->
+		</span>
+		<br/>
+		<span><span>Fecha de ingreso</span> <b>{{current_agendado.fechaIngreso | date}}</b></span>
+		<span><span>Observaciones</span> <b>{{current_agendado.observaciones}}</b></span>
+	</li>
+</ul>
+
+</div>
+</div>
+
+<modal-form data="agendado" form-url="partials/agendados/agendado_edit.html"></modal-form>
+
+

@@ -1,0 +1,22 @@
+ArtDespa,ComunSql.dbo
+ArtMadre,ComunSql.dbo
+Domicilios,ComunSql.dbo
+Despachos,ComunSql.dbo
+ExiArt,ComunSql.dbo
+Existencias,ComunSql.dbo
+Gente,ComunSql.dbo		
+GenteShort,ComunSql.dbo		
+Impuestos,Contempo.dbo
+Items,Contempo.dbo
+Kardex,Contempo.dbo
+NumerKar,Contempo.dbo
+Rol,trazaweb.dbo
+Stock,ComunSql.dbo
+StockBasic,ComunSql.dbo
+Transac,Contempo.dbo
+TipoComprob,Contempo.dbo
+Trazabi,ComunSql.dbo
+Usuario,trazaweb.dbo
+Parametrizacion, trazaweb.dbo
+StockBasic,ComunSql.dbo
+Operadores, ComunSql.dbo

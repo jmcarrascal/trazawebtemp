@@ -1,0 +1,42 @@
+ArtDespa,comunsql
+ArticuloMadre,comunsql|ArtMadre
+Domicilios,comunsql
+Despachos,comunsql
+ExiArt,comunsql
+Existencias,comunsql
+Gente,comunsql
+GenteShort,comunsql|Gente
+Impuestos,transacsql
+Items,transacsql
+Kardex,transacsql
+NumerKar,transacsql
+Rol,trazaweb
+Stock,comunsql
+StockBasic,comunsql|Stock
+Transac,transacsql
+TipoComprob,transacsql
+Trazabi,comunsql
+Usuario,trazaweb
+Parametrizacion,trazaweb
+StockBasic,comunsql
+Operadores,comunsql
+CondicionVenta,comunsql|condi
+IvaCodigo,comunsql|ivacod
+Plan,comunsql|plan
+Provincia,comunsql|prov
+Relacion,comunsql|relacion
+Transporte,comunsql|trans
+Zona,comunsql|zona 
+Vendedor,comunsql
+Familia,comunsql|fam
+SubFamilia,comunsql|subfam
+ExistenciasIndicadores,trazaweb
+PrefijoExistencia,trazaweb
+DetaViajes,transacsql|detaviajes
+Viaje,transacsql|viajes
+Tracking,transacsql|tracking
+Numeraciones,transacsql|numeraciones
+Lugares,comunsql|lugares
+DomiciliosAnexo, trazaweb|domiciliosanexo
+ClieArticPrecio, comunsql|cliearticprecio
+TranAnexo, Empresa1.dbo|trananexo

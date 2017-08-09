@@ -1,0 +1,466 @@
+@charset "utf-8";
+/* line 4, ../sass/main.sass */
+body {
+  padding-top: 70px;
+  background-color: white;
+}
+
+/* line 9, ../sass/main.sass */
+html {
+  background-color: white;
+}
+
+/* line 14, ../sass/main.sass */
+a, .pointer {
+  cursor: pointer;
+}
+
+/* line 17, ../sass/main.sass */
+body h4 {
+  margin-bottom: 10px;
+}
+
+/* line 20, ../sass/main.sass */
+.row-fluid h4 {
+  display: inline-block;
+}
+
+/* line 23, ../sass/main.sass */
+.wrapper {
+  height: 180px;
+  overflow: auto;
+}
+
+/* line 27, ../sass/main.sass */
+.logo {
+  display: block;
+  margin: 0 auto 40px;
+}
+
+/* line 31, ../sass/main.sass */
+.navbar-brand img {
+  max-height: 43px;
+}
+
+/* line 34, ../sass/main.sass */
+.navbar {
+  margin-left: 50px;
+}
+
+/* line 37, ../sass/main.sass */
+.modal-content {
+  text-align: left;
+}
+
+/* line 40, ../sass/main.sass */
+.modal-footer > .btn {
+  margin: auto !important;
+  display: inline-block;
+}
+
+/* line 44, ../sass/main.sass */
+.modal-content-long {
+  width: 750px;
+  height: 500px;
+  text-align: left;
+}
+
+/* line 49, ../sass/main.sass */
+.label {
+  display: inline-block !important;
+}
+
+/* line 52, ../sass/main.sass */
+.form-base {
+  padding: 8px;
+  margin: 0 auto 20px;
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* line 64, ../sass/main.sass */
+.form-base1 {
+  padding: 0 6px;
+  margin-bottom: 10px;
+  background-color: white;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  text-align: left;
+  margin: auto;
+}
+
+/* line 74, ../sass/main.sass */
+.form-base2 {
+  padding: 10px 10px 10px 10px;
+  margin: 0 auto 20px;
+  background-color: #f5802f;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* line 86, ../sass/main.sass */
+.form-base3 {
+  padding: 10px 10px 10px 10px;
+  margin: 0 auto 20px;
+  background-color: #4d4d4f;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* line 98, ../sass/main.sass */
+.form-signin {
+  display: block;
+  margin: 10% auto 20px;
+  width: 300px;
+}
+
+/* line 103, ../sass/main.sass */
+.form-signin .form-signin-heading, .form-signin .checkbox {
+  margin-bottom: 10px;
+}
+
+/* line 106, ../sass/main.sass */
+.form-signin input[type="text"], .form-signin input[type="password"] {
+  font-size: 13px;
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 0;
+  border: 0;
+  color: white !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: transparent !important;
+  width: 100%;
+  outline: 0;
+  -webkit-text-fill-color: white !important;
+}
+
+/* line 119, ../sass/main.sass */
+.form-signin input[type="text"]:focus,
+.form-signin input[type="password"]:focus {
+  border-bottom: 1px solid white;
+  -webkit-text-fill-color: white !important;
+}
+
+/* line 124, ../sass/main.sass */
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  background-color: transparent !important;
+  color: white;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* line 129, ../sass/main.sass */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+  -webkit-transition-delay: 9999s;
+}
+
+/* line 136, ../sass/main.sass */
+.footer {
+  background-color: #4d4d4f;
+  color: #ebebeb;
+  padding: 4px;
+  font-size: 10px;
+}
+
+/* line 142, ../sass/main.sass */
+.dentro-footer {
+  width: 95%;
+  float: left;
+  margin: 5px auto 5px 20px;
+  padding: 2px 3px 2px 3px;
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  text-align: right;
+}
+
+/* line 152, ../sass/main.sass */
+.alert-error-f {
+  color: white;
+  background-color: #dd4b39;
+  display: inline-block;
+}
+
+/* line 158, ../sass/main.sass */
+#exampleFilters td, #exampleFilters th {
+  border: none;
+  border-style: none;
+  background: #efefef;
+}
+
+/* line 164, ../sass/main.sass */
+#accordion {
+  margin-bottom: 20px;
+}
+
+/* line 168, ../sass/main.sass */
+.gridStyle {
+  border: 1px solid #d4d4d4;
+  width: auto;
+  height: 250px;
+}
+
+/* line 174, ../sass/main.sass */
+input:focus:invalid, textarea:focus:invalid, select:focus:invalid {
+  color: #b94a48;
+  border-color: #ee5f5b;
+}
+
+/* line 179, ../sass/main.sass */
+div .scrollable220 {
+  overflow-y: auto;
+  height: 220px;
+}
+
+/* line 186, ../sass/main.sass */
+md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused label, md-input-container:not(.md-input-invalid).md-input-focused label, md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused md-icon, md-input-container:not(.md-input-invalid).md-input-focused md-icon {
+  color: #47a447;
+}
+
+/* line 190, ../sass/main.sass */
+md-input-container .md-placeholder, md-input-container label:not(.md-no-float):not(.md-container-ignore) {
+  color: white;
+}
+
+/* line 194, ../sass/main.sass */
+input.md-button {
+  color: white;
+  background: #6fad73 !important;
+  
+}
+
+/* line 198, ../sass/main.sass */
+md-sidenav, md-sidenav md-content {
+  background-color: #383a3f;
+}
+
+/* line 202, ../sass/main.sass */
+md-sidenav.md-closed {
+  display: block !important;
+  left: 62px !important;
+  width: 62px;
+}
+
+/* line 208, ../sass/main.sass */
+md-toolbar:not(.md-menu-toolbar) {
+  background: transparent !important;
+}
+
+/* line 211, ../sass/main.sass */
+md-sidenav.md-closed .dropdown-menu-right {
+  float: right !important;
+  right: 0;
+  margin-left: 66px !important;
+}
+
+/* line 216, ../sass/main.sass */
+md-sidenav .dropdown-menu-right {
+  margin-top: 7px !important;
+  margin-left: 192px !important;
+}
+
+/* line 220, ../sass/main.sass */
+md-sidenav .dropdown-menu > li > a {
+  color: white;
+}
+
+/* line 223, ../sass/main.sass */
+.dropdown-submenu > .dropdown-menu {
+  background: #333333;
+}
+
+/* line 228, ../sass/main.sass */
+md-sidenav {
+  max-width: 200px !important;
+  padding-top: 15px;
+  overflow: initial !important;
+  position: fixed !important;
+}
+
+/* line 234, ../sass/main.sass */
+md-sidenav ul {
+  width: 100%;
+}
+
+/* line 237, ../sass/main.sass */
+md-sidenav.md-closed .section-name {
+  display: none;
+}
+
+/* line 240, ../sass/main.sass */
+md-content {
+  margin-top: 50px;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+/* line 245, ../sass/main.sass */
+md-sidenav.md-closed md-content ul {
+  width: 68px;
+  margin-left: -14px;
+}
+
+/* line 249, ../sass/main.sass */
+md-content li {
+  float: initial !important;
+  display: block !important;
+}
+
+/* line 253, ../sass/main.sass */
+md-sidenav.md-closed md-content li {
+  padding-left: 6px !important;
+}
+
+/* line 256, ../sass/main.sass */
+md-content a {
+  padding: 10px 0 !important;
+  color: white !important;
+  font-size: 15px;
+}
+
+/* line 261, ../sass/main.sass */
+md-content .nav > li > a:hover {
+  background-color: #222222;
+}
+
+/* line 264, ../sass/main.sass */
+md-sidenav .dropdown-menu-right {
+  background: #333333;
+  padding: 8px;
+  margin-top: -50px !important;
+}
+
+/* line 269, ../sass/main.sass */
+.section-name {
+  opacity: 0.8;
+}
+
+/* line 272, ../sass/main.sass */
+.icon {
+  width: 32px;
+  background: url(../img/icons/sprite_menu.png);
+  height: 32px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px 0 14px;
+}
+
+/* line 281, ../sass/main.sass */
+.agendados {
+  background-position: 1px -33px;
+}
+
+/* line 284, ../sass/main.sass */
+.active a .agendados {
+  background-position: -34px -33px;
+}
+
+/* line 287, ../sass/main.sass */
+.articulos {
+  background-position: 0 -70px;
+}
+
+/* line 290, ../sass/main.sass */
+.active a .articulos {
+  background-position: -34px -70px;
+}
+
+/* line 293, ../sass/main.sass */
+.mercaderia {
+  background-position: 0 0;
+}
+
+/* line 296, ../sass/main.sass */
+.active a .mercaderia {
+  background-position: -34px 0;
+}
+
+/* line 299, ../sass/main.sass */
+.indicadores {
+  background-position: 1px -102px;
+}
+
+/* line 302, ../sass/main.sass */
+.active a .indicadores {
+  background-position: -33px -102px;
+}
+
+/* line 305, ../sass/main.sass */
+.menu-btn {
+  margin-left: 18px;
+  color: #999999;
+}
+
+/* line 311, ../sass/main.sass */
+.footer-logo {
+  position: fixed;
+  bottom: 10px;
+  left: 12px;
+}
+/* line 316, ../sass/main.sass */
+.footer-logo img {
+  width: 22px;
+  vertical-align: middle;
+}
+/* line 320, ../sass/main.sass */
+.footer-logo span {
+  color: white;
+}
+
+/* line 323, ../sass/main.sass */
+md-sidenav.md-closed .footer-logo span {
+  display: none;
+}
+
+.md-button.md-default-theme[disabled], .md-button[disabled]{
+	background: #6fad73 !important;
+	color: #ffffff !important ;
+	font-size: 14px;
+	cursor: pointer;
+	cursor: hand; 
+}
+
+.md-button.md-default-theme:not([disabled]):hover, .md-button:not([disabled]):hover{
+	background: #6fad73 !important;
+	color: #ffffff !important ;
+	font-size: 14px;
+	cursor: pointer;
+	cursor: hand;
+	
+}
+
+input.md-button{
+	background: #6fad73 !important;
+	color: #ffffff !important ;
+	font-size: 14px;
+	cursor: pointer;
+	cursor: hand;
+	
+}
+
+.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open .dropdown-toggle.btn-info{
+	color: #46b8da !important;
+	background: #ffffff !important;
+	border: 1px solid #46b8da !important;
+}

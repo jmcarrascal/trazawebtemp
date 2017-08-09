@@ -1,0 +1,42 @@
+ArtDespa,ComunSql.dbo
+ArticuloMadre,ComunSql.dbo|ArtMadre
+Domicilios,ComunSql.dbo
+Despachos,ComunSql.dbo
+ExiArt,ComunSql.dbo
+Existencias,ComunSql.dbo
+Gente,ComunSql.dbo
+GenteShort,ComunSql.dbo|Gente
+Impuestos,Empresa1.dbo
+Items,Empresa1.dbo
+Kardex,Empresa1.dbo
+NumerKar,Empresa1.dbo
+Rol,trazaweb.dbo
+Stock,ComunSql.dbo
+StockBasic,ComunSql.dbo|Stock
+Transac,Empresa1.dbo
+TipoComprob,Empresa1.dbo
+Trazabi,ComunSql.dbo
+Usuario,trazaweb.dbo
+Parametrizacion,trazaweb.dbo
+StockBasic,ComunSql.dbo
+Operadores,ComunSql.dbo
+CondicionVenta,ComunSql.dbo|condi
+IvaCodigo,ComunSql.dbo|ivacod
+Plan,ComunSql.dbo|plan
+Provincia,ComunSql.dbo|prov
+Relacion,ComunSql.dbo|relacion
+Transporte,ComunSql.dbo|trans
+Zona,ComunSql.dbo|zona 
+Vendedor,ComunSql.dbo
+Familia,ComunSql.dbo|fam
+SubFamilia,ComunSql.dbo|subfam
+ExistenciasIndicadores,trazaweb.dbo
+PrefijoExistencia,trazaweb.dbo
+DetaViajes,Empresa1.dbo|detaviajes
+Viaje,Empresa1.dbo|viajes
+Tracking,Empresa1.dbo|tracking
+Numeraciones,Empresa1.dbo|numeraciones
+Lugares,ComunSql.dbo|lugares
+DomiciliosAnexo, trazaweb.dbo|domiciliosanexo
+ClieArticPrecio, ComunSql.dbo|cliearticprecio
+TranAnexo, Empresa1.dbo|trananexo

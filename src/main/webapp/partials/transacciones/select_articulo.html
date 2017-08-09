@@ -1,0 +1,50 @@
+<div id="modalSelectArticulo" class="modal" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel" aria-hidden="true">
+				<div class="modal-body">
+					<div class="form_content container-fluid">
+						<div class="row">
+							<div class="col-xs-10">
+								<div class="form_title">Articulos</div>
+							</div>
+						</div>
+						<div class="form-base form_content">
+							<div class="row">
+								<div class="col-xs-2">
+									<label class="control-label">Buscar por nombre:</label>
+									<input class="form-control" type="text" ng-model="articuloSearchText" ng-enter="updateSearchArticulo('init')" id="searchByName">
+								</div>
+								<div class="col-xs-2">
+									<label class="control-label">Buscar por código:</label> 
+									<input class="form-control" type="text" ng-model="articuloSearchKey" ng-enter="updateSearchArticuloByKey('init')" id="searchByCode">
+								</div>				
+							</div>
+						</div>
+
+						<table class="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Nombre</th>
+									<th>Stock</th>
+									<th>Unidad de Venta</th>
+									<th width="1">Seleccionar</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="articulo in articulos">
+									<td>{{articulo.id}}</td>
+									<td>{{articulo.descripcion}}</td>
+									<td>{{articulo.stock}}</td>
+									<td>{{articulo.uniVenta}}</td>
+									<td class="text-center"><button type="button" class="btn btn-primary btn-xs btn-fw" ng-click="selectSeachArticulo(articulo)"><i class="fa fa-check"></i></button></td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="row">
+							<div class="col-xs-12 text-center">
+								<input type="button" class="btn btn-small btn-danger" value="Cerrar" ng-click="closeSearchArticulo()" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>

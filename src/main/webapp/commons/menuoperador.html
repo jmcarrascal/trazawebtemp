@@ -1,0 +1,30 @@
+<ul class="nav navbar-nav">
+	<li ng-class="{ active: (isActive('/ingreso_mercaderia_normal') || isActive('/find_traza_remito')) }" class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			<span class="icon mercaderia"></span>
+			<span class="section-name">Mercaderia <b class="caret"></b></span>
+		</a>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<li>
+				<a href="#/ingreso_mercaderia_normal" my-refresh>Normal (Sin Anmat)</a>
+			</li>
+			<li>
+				<a href="#/find_traza_remito" my-refresh>Combinada (Anmat)</a>
+			</li>
+		</ul>
+	</li>
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			<span class="icon indicadores"></span> 
+			<span class="section-name">Reportes<b class="caret">
+			</b></span>
+		</a>
+		<ul class="dropdown-menu dropdown-menu-right">
+
+			<li><a href="#/find_kardex" my-refresh><i class="fa fa-cogs"></i>
+					Kardex</a></li>
+		</ul></li>
+</ul>
+
+
+

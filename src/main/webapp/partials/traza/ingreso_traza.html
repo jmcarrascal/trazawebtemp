@@ -1,0 +1,69 @@
+<div class="content">
+	<div class="form-base1">
+		<div class="row-fluid">
+			<h4>
+				Medicamentos a Recepcionar <img src="img/calc.png" height="38"
+				width="38" ng-if="romaneo != null" ng-click="mostrarContador()">
+			</h4>
+			<alert-message></alert-message>
+			<alert-error></alert-error>
+		</div>
+		<div class="form-base">
+			<div class="row-fluid">
+				<div class="row">
+					<div class="col-xs-4" ng-if="romaneo == null" ng-init="initOc()">
+						<form ng-submit="getRomaneo()">
+							<label class="control-label">Ingrese la transacción de la
+								orden de compra asociada:</label> <input class="form-control" type="text"
+								id="transacNr" ng-model="transacNr" /> <br> <input
+								type="submit" class="btn btn-small btn-primary"
+								value="Validar OC" />
+							</form>
+						</div>
+						<div class="col-xs-12" ng-if="romaneo != null"
+						ng-init="initRomaneo()">
+						<label class="control-label" ng-click="resetOc()">Orden de
+							Compra: {{transacNr}} </label>
+							<div class="row-fluid"
+							ng-show="ingreso.observaciones != undefined && ingreso.observaciones != ''">
+							<div class="row">
+								<div class="col-xs-6">
+									<label class="control-label">Observaciones:
+										{{ingreso.observaciones}} Existencia: {{ingreso.existencia}}</label>
+									</div>
+								</div>
+
+							</div>
+
+							<br>
+							<form ng-submit="addMedicamento()">
+								<label class="control-label" for="hash">Lectura de Caja: </label>
+								<input class="form-control" type="text" name="hash"
+								ng-model="hash" id="hash" /> <br> <input type="submit"
+								name="inputSubmit" class="btn btn-small btn-primary" id="submit"
+								value="Buscar" ng-disabled="hash == null || hash == ''" /> <input
+								type="button" ng-click="selectAll()"
+								class="btn btn-small btn-primary" value="Seleccionar Todos"
+								ng-if="useBulkLoad" />
+
+
+
+
+
+							</form>
+							<br>
+							<div class="gridStyle" ng-grid="trazaRemitoGrid.gridOptions"
+							style="width: 100%"></div>
+
+							<form ng-submit="ingresoAnmat()">
+								<br> <input type="submit" name="inputSubmit"
+								class="btn btn-small btn-primary"
+								value="Ingresar los medicamentos seleccionados a Anmat" />
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>

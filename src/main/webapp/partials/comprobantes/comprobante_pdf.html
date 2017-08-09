@@ -1,0 +1,21 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel();closeModal();">&times;</button>
+	<h4 class="modal-title">{{title}}</h4>
+</div>
+<div class="modal-body">
+<form name="form_comprobante_pdf" autocomplete="off" novalidate>
+	<div ng-controller="TransaccionesListController">
+		<div class="form_content container-fluid">
+	
+			<div class="alert alert-danger" ng-show="error != null">
+				<a class="close" ng-click="error = null">×</a> <strong>{{error}}</strong>
+			</div>
+			<br/>
+			<iframe style="border: none; width: 100%; height: 1000px;" id="comprobantePDF"></iframe>
+		</div>
+	</div>	
+</form>
+</div>
+<div class="modal-footer text-center">
+	<input type="button" class="btn btn-small btn-primary" value="Ok" ng-click="cancel();closeModal();" />
+</div>

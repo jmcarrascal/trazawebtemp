@@ -1,0 +1,19 @@
+ALTER TABLE `comunsql`.`domicilios` 
+ADD COLUMN `departamento` VARCHAR(200) NULL AFTER `GLN`,
+ADD COLUMN `nrAfiliado` VARCHAR(45) NULL AFTER `departamento`,
+ADD COLUMN `nombreAfiliado` VARCHAR(200) NULL AFTER `nrAfiliado`,
+ADD COLUMN `apellidoAfiliado` VARCHAR(200) NULL AFTER `nombreAfiliado`,
+ADD COLUMN `calleAfiliado` VARCHAR(200) NULL AFTER `apellidoAfiliado`,
+ADD COLUMN `calleAltura` VARCHAR(200) NULL AFTER `calleAfiliado`,
+ADD COLUMN `piso` VARCHAR(45) NULL AFTER `calleAltura`,
+ADD COLUMN `tipoDoc` VARCHAR(45) NULL AFTER `piso`,
+ADD COLUMN `nrDocumento` VARCHAR(45) NULL AFTER `tipoDoc`;
+
+
+
+27-06-2016
+
+ALTER TABLE `comunsql`.`Stock` 
+ADD COLUMN `troquel` VARCHAR(10) NULL DEFAULT NULL AFTER `trazable`;
+
+INSERT INTO `trazaweb`.`Rol` (`id`, `abrev`, `nombre`) VALUES ('5', 'VENTAS', 'VENTAS');

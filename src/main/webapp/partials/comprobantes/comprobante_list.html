@@ -1,0 +1,209 @@
+
+<style>
+.fadee.ng-enter {
+	transition: 0.8s linear all;
+	opacity: 0;
+}
+
+/* The finishing CSS styles for the enter animation */
+.fadee.ng-enter.ng-enter-active {
+	opacity: 1;
+}
+</style>
+
+<!-- settings changer -->
+
+
+
+<!-- Users table -->
+<alert-message></alert-message>
+<alert-error></alert-error>
+<div class="form-base1">
+	<div class="row-fluid">
+		<h4><a href="" ng-click="preparedEditAgendado()">{{agendado.descripC}}</a> - Domicilios</h4>
+		
+		<ul class="actions-header">
+			<li><a class="btnIcons hovertip box-icon-a main-btn"
+				ng-click="newDomicilio()"
+				ng-class="{'gray-bg': show_procedures_list()}" style="position: absolute"> <img tooltip
+					class="hovertip" src="img/icons/plus.png" />
+			</a></li>
+		</ul>
+	
+	</div>
+	<div class="form-base form_content">
+		<div class="row">
+			<div class="col-xs-2">
+				<label class="control-label">Buscar:</label> <input
+					class="form-control" type="text" ng-model="busqueda.texto"
+					ng-enter="searchDomicilios('init')" placeholder="" focus-on-condition="true"></input>
+			</div>
+
+			<div class="col-xs-2">
+				<div class="form-group">
+					<label class="control-label">Tipo Domicilio:</label>
+					<ui-select ng-model="busqueda.tipoDomicilio" theme="select2" on-select="searchDomicilios('init')">
+						<ui-select-match placeholder="Todos">{{$select.selected.descrip}}</ui-select-match>
+						<ui-select-choices repeat="item.codigo as item in tiposDeDomicilios | propsFilter: {codigo: $select.search, descrip: $select.search}">
+							<div ng-bind-html="item.descrip | highlight: $select.search"></div>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+<div ng-show="domicilios.length != 0" ng-cloak
+	class="box-content mtop box-view" sidebar-directive="state"
+	ng-class="{'pushmenu-push' : toggle.state}"
+	tagged-infinite-scroll="get_items()"
+	tagged-infinite-scroll-disabled="false">
+
+	<ul>
+		<div class="counter" style="min-width: 528px; max-width: 576px">
+			<span>{{domicilios.length}}</span> de <span>{{total_items}}</span>
+
+			<div class="inline-block sortBy">
+				| <a ng-click="sort_by('instance.created_on')"
+					ng-class="{'dropup': is_active_sorting_asc('instance.created_on')}">
+					<span ng-class="{'bold': is_active_sorting('instance.created_on')}">Fecha</span>
+					<span class="caret"></span>
+				</a> <a ng-click="sort_by('id')"
+					ng-class="{'dropup': is_active_sorting_asc('id')}"> <span
+					ng-class="{'bold': is_active_sorting('id')}">Cercanía</span> <span
+					class="caret"></span>
+				</a> <a ng-click="sort_by('commiter.cn')"
+					ng-class="{'dropup': is_active_sorting_asc('commiter.cn')}"> <span
+					ng-class="{'bold': is_active_sorting('commiter.cn')}">Saldo</span>
+					<span class="caret"></span>
+				</a>
+			</div>
+			<moorea-select class="moorea-select inline-block middle"
+				style="width: 200px;" placeholder="Filtrar por ..." showby="true"
+				dataset="distinct_tasks" name="selected_filter_task"
+				ng-change="set_filter_and_refresh(selected_filter_task)"
+				ng-model="selected_filter_task"></moorea-select>
+		</div>
+
+		<li class="boxes fade1" tabindex="0" ng-repeat="current_domicilio in domicilios">
+			<div>
+				<h4 ng-click="preparedEdit(current_domicilio.id)">
+					<b>{{current_domicilio.descripC}}</b>
+				</h4>
+				<span class="instance-description">{{current_agendado.cuit}}</span>
+			</div>
+			
+			<ul>
+				<li class="col-md-3">
+					<span>Descripción</span><br />
+					<b>{{current_domicilio.descripcion || "&nbsp;"}}</b>
+				</li>
+				<li class="col-md-3">
+					<span>Contacto</span><br />
+					<b>{{current_domicilio.contacto || "&nbsp;"}}</b>
+				</li>
+				<li class="col-md-3">
+					<span>Teléfono de voz</span><br />
+					<b>{{current_domicilio.telefonoVoz || "&nbsp;"}}</b>
+				</li>
+				<li class="col-md-3">
+					<span>E-Mail</span><br />
+					<b>{{current_domicilio.email || "&nbsp;"}}</b>
+				</li>
+
+				<li class="col-md-3">
+					<span>Código Postal</span><br />
+					<b>{{current_domicilio.codigoPostal || "&nbsp;"}}</b>
+				</li>
+				<li class="col-md-3">
+					<span>Localidad</span><br />
+					<b>{{current_domicilio.localidad || "&nbsp;"}}</b>
+				</li>
+				<li class="col-md-3">
+					<span>Provincia</span><br />
+					<b>{{current_domicilio.provincia || "&nbsp;"}}</b>
+				</li>
+				<li class="col-md-3">
+					<span>Pais</span><br />
+					<b>{{current_domicilio.pais || "&nbsp;"}}</b>
+				</li>
+
+				<li class="col-md-3">
+					<span>Domicilio Principal</span><br />
+					<b>{{current_domicilio.domicilioPrincipal === 0 ? "No" : "Si"}}</b>
+				</li>
+				<li class="col-md-3">
+					<span>Domicilio Entrega</span><br />
+					<b>{{current_domicilio.domicilioEntrega === 0 ? "No" : "Si"}}</b>
+				</li>
+				<li class="col-md-3">
+					<span>Domicilio Cobranza</span><br />
+					<b>{{current_domicilio.domicilioCobranza === 0 ? "No" : "Si"}}</b>
+				</li>
+				<li class="col-md-3">
+					<span>Domicilio Mailing</span><br />
+					<b>{{current_domicilio.domicilioMailing === 0 ? "No" : "Si"}}</b>
+				</li>
+			</ul> 
+			<br />
+		</li>
+	</ul>
+
+</div>
+
+
+<div id="viewFlow" class="modal fade mwidth" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true">&times;</button>
+		<h5 id="myModalLabel">{{instance_name}} > Flujo</h5>
+	</div>
+	<div class="modal-header">
+		<div style="z-index: 2999" class="contenEditor container-fluid">
+			<div class="workspaceScrollArea">
+				<div class="workspace">
+					<div style="overflow-x: scroll" id="container" ng-rflow></div>
+				</div> 
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="bitacora" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h5 class="modal-title" id="myModalLabel">Bitácora</h5>
+			</div>
+			<div class="modal-body">
+				<div ng-repeat="log in logs">
+					<b>{{log.msg}}</b></br>
+				</div>
+
+				<div class="modal-notif" ng-if="logs.length == 0 && fetching_log">Cargando
+					mensajes...</div>
+				<div class="modal-notif" ng-if="logs.length == 0 && !fetching_log">No
+					hay mensajes...</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<modal-form data="agendadoEdit" form-url="partials/agendados/agendado_edit.html"></modal-form>
+<modal-form data="domicilio" form-url="partials/domicilios/domicilios_edit.html"></modal-form>
+

@@ -1,0 +1,340 @@
+
+<div class="modal-dialog modal-lg">
+	<div class="modal-content">
+		<form input-validation-form ng-submit="formSubmit(form_articulo)"
+		name="form_articulo" autocomplete="off" novalidate>
+		<div ng-controller="ArticuloEditController">
+			<div class="form_content container-fluid">
+				<div class="row">
+				<!-- <div class="col-xs-12">
+					<div class="form_title">{{ articulo.id === undefined ? "Alta
+						de articulo" : "Edición de articulo" }}</div>
+					</div>
+				</div>
+			-->
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h2 class="modal-title">{{ articulo.id === undefined ? "Alta
+						de articulo" : "Edición de articulo" }}</h2>
+			</div>
+			<div class="modal-body">
+			<div class="alert alert-danger" ng-show="error != null">
+				<a class="close" ng-click="error = null">×</a> <strong>{{error}}</strong>
+			</div>
+			<div class="panel">
+			<div class="row">
+				<div class="col-xs-3">
+					<div class="form-group">
+						<label class="control-label">Clave:</label> <input
+						class="form-control" type="text" ng-model="articulo.id" required/>
+						<span input-validation-required>Campo
+						obligatorio.</span>
+					</div>
+				</div>
+				<div class="col-xs-8">
+					<div input-validation class="form-group">
+						<label class="control-label">Nombre:</label> <input
+						class="form-control" type="text" ng-model="articulo.descripcion"
+						name="descripcion" required /> <span input-validation-required>Campo
+						obligatorio.</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-3">
+					<div input-validation class="form-group">
+						<label class="control-label">Familia:</label>
+						<ui-select ng-model="articulo.familia.nrfam" theme="select2"
+						name="familia" on-select="validate()" required> <ui-select-match
+						placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+						<ui-select-choices
+						repeat="familia.codigo as familia in familias | propsFilter: {codigo: $select.search, descrip: $select.search}">
+						<div ng-bind-html="familia.descrip | highlight: $select.search"></div>
+					</ui-select-choices> </ui-select>
+					<span input-validation-required>Campo obligatorio.</span>
+				</div>
+			</div>
+			<div class="col-xs-3">
+				<div input-validation class="form-group">
+					<label class="control-label">Subfamilia:</label>
+					<ui-select ng-model="articulo.subFamilia.nrsubfam" theme="select2"
+					name="subFamilia" on-select="validate()" required> <ui-select-match
+					placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+					<ui-select-choices
+					repeat="subFamilia.codigo as subFamilia in subFamilias | propsFilter: {codigo: $select.search, descrip: $select.search}">
+					<div ng-bind-html="subFamilia.descrip | highlight: $select.search"></div>
+				</ui-select-choices> </ui-select>
+				<span input-validation-required>Campo obligatorio.</span>
+			</div>
+		</div>
+		<div class="col-xs-5">
+			<div input-validation class="form-group">
+				<label class="control-label">Proveedor principal:</label>
+				<ui-select ng-model="articulo.proveedPrincip" theme="select2"
+				name="proveedorPrincipal" on-select="validate()" required>
+				<ui-select-match placeholder="Seleccione una opción...">{{'['
+					+ $select.selected.genteNr + ']' +' ' +
+					$select.selected.razonSocial +' - ' +$select.selected.cuit}}</ui-select-match> <ui-select-choices
+					repeat="proveedor.genteNr as proveedor in proveedores | propsFilter: {genteNr: $select.search, razonSocial: $select.search}">
+					<div
+					ng-bind-html="proveedor.razonSocial| highlight: $select.search"></div>
+					<div ng-bind-html="proveedor.cuit| highlight: $select.search"></div>
+				</ui-select-choices> </ui-select>
+				<span input-validation-required>Campo obligatorio.</span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-3">
+			<div input-validation class="form-group">
+				<label class="control-label">Articulo Madre:</label>
+				<ui-select ng-model="articulo.articuloMadre"
+				theme="select2" name="articuloMadre" on-select="validate()"
+				> <ui-select-match
+				placeholder="Seleccione una opción...">{{'[' +
+				$select.selected.codigo + '] ' +$select.selected.descrip}}</ui-select-match> <ui-select-choices
+				repeat="articuloMadre.codigo as articuloMadre in articuloMadreList | propsFilter: {codigo: $select.search, descrip: $select.search}">
+				<div
+				ng-bind-html="articuloMadre.descrip | highlight: $select.search"></div>
+				<div
+				ng-bind-html="articuloMadre.codigo | highlight: $select.search"></div>
+			</ui-select-choices> </ui-select>
+			<span input-validation-required>Campo obligatorio.</span>
+		</div>
+	</div>
+	<div class="col-xs-3">
+		<div class="form-group">
+			<label class="control-label">Codigo de Barras (EAN):</label> <input
+			class="form-control" type="text" ng-model="articulo.codBarras" />
+		</div>
+	</div>
+	<div class="col-xs-3">
+		<div class="form-group">
+			<label class="control-label">Codigo COT/AFIP:</label> <input
+			class="form-control" type="text" ng-model="articulo.codAfip" />
+		</div>
+	</div>
+	<div class="col-xs-3">
+		<div class="form-group">
+			<label class="control-label">Gtin:</label> <input
+			class="form-control" type="text" ng-model="articulo.gtin" />
+		</div>
+	</div>
+</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">Stock</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-xs-3">
+				<div input-validation class="form-group">
+					<label class="control-label">Cadena de frio:</label>
+					<ui-select ng-model="articulo.cadenaFrio" theme="select2"
+					name="cadenaFrio" on-select="validate()" ng-required="true">
+					<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+					<ui-select-choices
+					repeat="opt.codigo as opt in booleanValues | propsFilter: {codigo: $select.search, descrip: $select.search}">
+					<div ng-bind-html="opt.descrip | highlight: $select.search"></div>
+				</ui-select-choices> </ui-select>
+				<span input-validation-required>Campo obligatorio.</span>
+			</div>
+		</div>
+		<div class="col-xs-3">
+			<div class="form-group">
+				<label class="control-label">Mínimo reposición:</label> <input
+				class="form-control" type="number"
+				ng-model="articulo.minimoRepo" />
+			</div>
+		</div>
+		<div class="col-xs-3">
+			<div class="form-group">
+				<label class="control-label">Máximo reposición:</label> <input
+				class="form-control" type="number"
+				ng-model="articulo.maximoRepo" />
+			</div>
+		</div>
+		<div class="col-xs-3">
+			<div class="form-group">
+				<label class="control-label">Unidad de compra:</label> <input
+				class="form-control" type="text" ng-model="articulo.uniCompra" />
+			</div>
+		</div>
+		<div class="col-xs-3">
+			<div class="form-group">
+				<label class="control-label">Unidad de venta:</label> <input
+				class="form-control" type="text" ng-model="articulo.uniVenta" />
+			</div>
+		</div>
+		<div class="col-xs-3">
+			<div class="form-group">
+				<label class="control-label">Unidad de costo:</label> <input
+				class="form-control" type="text" ng-model="articulo.uniCosto" />
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-2">
+			<div class="form-group">
+				<label class="control-label">Cant por pack:</label> <input
+				class="form-control" type="number"
+				ng-model="articulo.unidadesPak" />
+			</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="form-group">
+				<label class="control-label">Cant por bulto:</label> <input
+				class="form-control" type="number"
+				ng-model="articulo.unidadesBulto" />
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">Comercial</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-xs-2">
+				<div input-validation class="form-group">
+					<label class="control-label">Es oferta:</label>
+					<ui-select ng-model="articulo.oferta" theme="select2"
+					name="oferta" on-select="validate()" ng-required="true">
+					<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+					<ui-select-choices
+					repeat="opt.codigo as opt in booleanValues | propsFilter: {codigo: $select.search, descrip: $select.search}">
+					<div ng-bind-html="opt.descrip | highlight: $select.search"></div>
+				</ui-select-choices> </ui-select>
+				<span input-validation-required>Campo obligatorio.</span>
+			</div>
+		</div>
+		<div class="col-xs-6">
+			<div class="form-group">
+				<label class="control-label">Observaciones:</label> <input
+				class="form-control" type="text"
+				ng-model="articulo.observaciones" />
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-8">
+			<div class="form-group">
+				<label class="control-label">Descripción Ampliada:</label> <input
+				class="form-control" type="text"
+				ng-model="articulo.descriAmpliada" />
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Impuestos</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-xs-2">
+				<div input-validation class="form-group">
+					<label class="control-label">Impuesto:</label>
+					<ui-select ng-model="articulo.impInternos" theme="select2" name="oferta" on-select="validate()" ng-required="true">
+					<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+					<ui-select-choices repeat="impuestos.codigo as impuestos in impuestosList | propsFilter: {codigo: $select.search, descrip: $select.search}">
+						<div ng-bind-html="impuestos.descrip | highlight: $select.search"></div>
+					</ui-select-choices> 
+					</ui-select>
+					<span input-validation-required>Campo obligatorio.</span>
+				</div>
+			</div>
+
+			<div class="col-xs-2">
+				<div input-validation class="form-group">
+					<label class="control-label">Alicuota IVA:</label>
+					<ui-select ng-model="articulo.ivaGravado" theme="select2"
+					name="oferta" on-select="validate()" ng-required="true">
+					<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+					<ui-select-choices
+					repeat="impuestos.codigo as impuestos in impuestosList | propsFilter: {codigo: $select.search, descrip: $select.search}">
+					<div ng-bind-html="impuestos.descrip | highlight: $select.search"></div>
+					</ui-select-choices> </ui-select>
+					<span input-validation-required>Campo obligatorio.</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Precios</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-xs-2">
+				<div class="form-group">
+					<label class="control-label">Costo:</label> <input
+					class="form-control" type="number" ng-model="articulo.precioCosto" />
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-2">
+				<div class="form-group">
+					<label class="control-label">Lista de Precios de venta:</label> 
+				</div>
+			</div>
+		</div>					
+		<div class="row">
+			<div class="col-xs-1">
+				<div class="form-group">
+					<label class="control-label">Lista 1:</label> <input
+					class="form-control" type="number" ng-model="articulo.precio1" />
+				</div>
+			</div>
+			<div class="col-xs-1">
+				<div class="form-group">
+					<label class="control-label">Lista 2:</label> <input
+					class="form-control" type="number" ng-model="articulo.precio2" />
+				</div>
+			</div>
+			<div class="col-xs-1">
+				<div class="form-group">
+					<label class="control-label">Lista 3:</label> <input
+					class="form-control" type="number" ng-model="articulo.precio3" />
+				</div>
+			</div>
+			<div class="col-xs-1">
+				<div class="form-group">
+					<label class="control-label">Lista 4:</label> <input
+					class="form-control" type="number" ng-model="articulo.precio4" />
+				</div>
+			</div>
+			<div class="col-xs-1">
+				<div class="form-group">
+					<label class="control-label">Lista 5:</label> <input
+					class="form-control" type="number" ng-model="articulo.precio5" />
+				</div>
+			</div>
+			<div class="col-xs-1">
+				<div class="form-group">
+					<label class="control-label">Lista 6:</label> <input
+					class="form-control" type="number" ng-model="articulo.precio6" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="modal-footer">
+	<div class="col-xs-12 text-center">
+		<input type="button" class="btn btn-small btn-danger"
+		value="Cancelar" ng-click="$parent.formCancel()" /> <input
+		type="submit" class="btn btn-small btn-primary"
+		value="{{ articulo.id === undefined ? 'Agregar' : 'Modificar' }}" />
+	</div>
+</div>
+
+</div>
+</div>
+</form>
+</div>
+</div>

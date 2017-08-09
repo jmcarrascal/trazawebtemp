@@ -1,0 +1,251 @@
+<style>
+.fadee.ng-enter {
+	transition: 0.8s linear all;
+	opacity: 0;
+}
+
+/* The finishing CSS styles for the enter animation */
+.fadee.ng-enter.ng-enter-active {
+	opacity: 1;
+}
+	.red {
+		color:red;
+	}
+</style>
+
+
+<!-- settings changer -->
+
+<div class="content">
+
+<!-- Users table -->
+<alert-message></alert-message>
+<alert-error></alert-error>
+<div class="row-fluid">
+		<h4 class="section-title">
+			Artículos
+		</h4>
+		
+		
+		<ul class="actions-header">
+			<li style="display: inline-block"><button class="btn btn-primary" ng-click="newArticulo()"  ng-class="{'gray-bg': show_procedures_list()}">+ Nuevo Articulo</li>
+			<li style=" display: inline-block;margin-left: 30px;"><button class="btn btn-primary" ng-click="openListado()" ng-class="{'gray-bg': show_procedures_list()}">Listado de Artículos</li>
+		</ul>
+	
+	</div>
+	<div class="form-base form_content">
+		<div class="row">
+			<div class="col-xs-3">
+				<label class="control-label">Filtrar por nombre o número:</label> <input
+					class="form-control" type="text" ng-model="busqueda.nombreNumero"
+					ng-enter="searchArticulo('init')" placeholder="Ingrese parte del nombre/numero..." focus-on-condition="true"/>
+			</div>
+
+			<div class="col-xs-2">
+				<div class="form-group">
+					<label class="control-label">Familia:</label>
+					<ui-select ng-model="busqueda.familiaId" theme="select2" on-select="searchArticulo('init')">
+						<ui-select-match placeholder="Todos">{{$select.selected.descrip}}</ui-select-match>
+						<ui-select-choices repeat="familia.codigo as familia in familias | propsFilter: {codigo: $select.search, descrip: $select.search}">
+							<div ng-bind-html="familia.descrip | highlight: $select.search"></div>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+			</div>
+			
+			<div class="col-xs-2">
+				<div class="form-group">
+					<label class="control-label">Sub-Familia:</label>
+					<ui-select ng-model="busqueda.subFamiliaId" theme="select2" on-select="searchArticulo('init')">
+						<ui-select-match placeholder="Todos">{{$select.selected.descrip}}</ui-select-match>
+						<ui-select-choices repeat="subFamilia.codigo as subFamilia in subFamilias | propsFilter: {codigo: $select.search, descrip: $select.search}">
+							<div ng-bind-html="subFamilia.descrip | highlight: $select.search"></div>
+						</ui-select-choices>
+					</ui-select>
+				</div>
+			</div>
+			
+			<div class="col-xs-1">
+					<button ng-enter="searchAgendado('init')"
+							class="btn btn-secondary" style="margin-top:16px" ng-click="searchArticulo('init')">
+								<i class="fa fa-search" aria-hidden="true"/>
+					</button>
+				</div>
+
+		</div>
+	</div>
+</div>
+
+
+<div ng-show="articulos.length != 0" ng-cloak
+	class="box-content mtop box-view" sidebar-directive="state"
+	ng-class="{'pushmenu-push' : toggle.state}"
+	tagged-infinite-scroll="get_items()"
+	tagged-infinite-scroll-disabled="false">
+
+	<ul>
+		<div class="counter" style="min-width: 528px; max-width: 576px">
+			<span>{{articulos.length}}</span> de <span>{{total_items}}
+			</span>
+
+			<div class="inline-block sortBy">
+				| <a ng-click="sort_by('instance.created_on')"
+					ng-class="{'dropup': is_active_sorting_asc('instance.created_on')}">
+					<span ng-class="{'bold': is_active_sorting('instance.created_on')}">Fecha</span>
+					<span class="caret"></span>
+				</a> <a ng-click="sort_by('id')"
+					ng-class="{'dropup': is_active_sorting_asc('id')}"> <span
+					ng-class="{'bold': is_active_sorting('id')}">Cercanía</span> <span
+					class="caret"></span>
+				</a> <a ng-click="sort_by('commiter.cn')"
+					ng-class="{'dropup': is_active_sorting_asc('commiter.cn')}"> <span
+					ng-class="{'bold': is_active_sorting('commiter.cn')}">Saldo</span>
+					<span class="caret"></span>
+				</a>
+			</div>
+			<moorea-select class="moorea-select inline-block middle"
+				style="width: 200px;" placeholder="Filtrar por ..." showby="true"
+				dataset="distinct_tasks" name="selected_filter_task"
+				ng-change="set_filter_and_refresh(selected_filter_task)"
+				ng-model="selected_filter_task"></moorea-select>
+		</div>
+
+		<li class="boxes fade1" tabindex="0"
+			ng-repeat="current_articulo in articulos">
+
+			<div class="pull-right">
+				<button type="button" class="btn btn-xs btn-primary"
+					ng-click="showComprobante(current_articulo)">Comprobantes</button>
+				<!-- button type="button" class="btn btn-xs btn-primary" ng-click="showTransacciones(current_agendado)">Transacciones</button -->
+			</div>
+
+
+			<div>
+
+				<h4 class="pointer" ng-click="preparedEdit(current_articulo.id)">
+					<b>{{current_articulo.descripC}}</b>
+				</h4>
+				<span class="instance-description">{{current_articulo.cuit}}</span>
+			</div>
+
+			<ul>
+				<li >
+					<span>Gtin</span>
+					<b>{{current_articulo.gtin}}</b>
+				</li>
+				<li >
+					<span>Descripcion Ampliada</span>
+					<b>{{current_articulo.descriAmpliada}}</b>
+				</li>
+				<li >
+					<span>Stock</span>
+					<b>{{current_articulo.stock }}</b>
+				</li>
+				<li >
+					<span>Familia</span>
+					<b>{{current_articulo.familia.descripC }}</b>
+				</li>
+				<li >
+					<span>SubFamilia</span>
+					<b>{{current_articulo.subFamilia.descripC}}</b>
+				</li>
+				<li >
+					<span>Unidad de Compra</span>
+					<b>{{current_articulo.uniCompra}}</b>
+				</li>
+				<li >
+					<span>Unidad de Venta</span>
+					<b>{{current_articulo.uniVenta}}</b>
+				</li>
+				
+			</ul> 
+			<br>
+		</li>
+	</ul>
+
+</div>
+</div>
+
+<div id="viewFlow" class="modal fade mwidth" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true">&times;</button>
+		<h5 id="myModalLabel">{{instance_name}} > Flujo</h5>
+	</div>
+	<div class="modal-header">
+		<div style="z-index: 2999" class="contenEditor container-fluid">
+			<div class="workspaceScrollArea">
+				<div class="workspace">
+					<div style="overflow-x: scroll" id="container" ng-rflow></div>
+				</div> 
+			</div>
+		</div>
+	</div>
+</div>
+<div id="modalSelectArticulo" class="modal" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel"
+							aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h2 class="modal-title">Articulos</h2>
+						</div>
+						<div class="modal-body">
+							<div class="form-base form_content">
+								<div class="row">
+									<div class="col-xs-3">
+										<label class="control-label">Buscar por código/nombre:</label>
+										<input class="form-control" type="text" ng-model="busqueda.nombreNumero" ng-enter="searchArticulo('init')"/>
+									</div>
+									<div class="col-xs-3">
+										<button ng-click="searchArticulo('init')"
+											style="margin-top: 16px"
+											class="btn btn-secondary align-middle">
+											<i class="fa fa-search" aria-hidden="true" />
+										</button>
+									</div>
+								</div>
+							</div>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Nombre</th>
+										<th>Stock</th>
+										<th>IVA %</th>
+										<th>Precio</th>
+										<th>Prox Fecha de Venc</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="articulo in articulos">
+										<td>{{articulo.id}}</td>
+										<td>{{articulo.descripcion}}</td>
+										<td ng-class="{'red': articulo.stock<1}">{{articulo.stock}}</td>
+										<td>{{articulo.impuestos.alicuota}}</td>
+										<td>{{articulo.precio1}}</td>
+										<!-- Fecha de ejemplo, acomodar cuando la tengamos -->
+										<td ng-if="articulo.fechaVencimientoMasProxima != null && articulo.stock != 0" ng-style="getStyle(articulo.fechaVencimientoMasProxima)">{{articulo.fechaVencimientoMasProxima | date:"dd-MM-yyyy"}}</td>
+										<td ng-if="articulo.fechaVencimientoMasProxima == null"> - </td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<div class="col-xs-12 text-center">
+								<input type="button" class="btn btn-small btn-danger" value="Cerrar" data-dismiss="modal" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+<modal-form data="articulo" form-url="partials/articulos/articulo_edit.html"></modal-form>
+
+
+

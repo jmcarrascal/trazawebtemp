@@ -1,0 +1,394 @@
+<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+				<form input-validation-form ng-submit="formSubmit(form_agendado)" name="form_agendado" autocomplete="off" novalidate>
+					<div ng-controller="AgendadoEditController">
+						<div class="form_content container-fluid">
+				<!-- <div class="row">
+					<div class="col-xs-12">
+						<div class="form_title">{{ agendado.id === undefined ? "Alta de agendado" : "Edición de agendado" }}</div>
+					</div>
+				</div> -->
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h2 class="modal-title">{{ agendado.id === undefined ? "Alta de agendado" : "Edición de agendado" }}</h2>
+				</div>
+				
+				<div class="alert alert-danger" ng-show="error != null">
+					<a class="close" ng-click="error = null">×</a> <strong>{{error}}</strong>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-3">
+						<div class="form-group">
+							<label class="control-label">Nr:</label> <input
+							class="form-control" type="text" ng-model="agendado.id"
+							disabled />
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div input-validation class="form-group">
+							<label class="control-label">Razón Social:</label> <input
+							class="form-control" type="text"
+							ng-model="agendado.razonSocial" name="razonSocial" required />
+							<span input-validation-required>Campo obligatorio.</span>
+						</div>
+					</div>
+					<div class="col-xs-3">
+						<div class="form-group">
+							<label class="control-label">Saldo:</label> <input
+							class="form-control" type="text"
+							ng-model="agendado.saldoCalculo" disabled />
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-3">
+						<div input-validation class="form-group">
+							<label class="control-label">CUIT:</label> <input
+							class="form-control" type="text" ng-model="agendado.cuit"
+							name="cuit" required /> <span input-validation-required>Campo
+							obligatorio.</span>
+						</div>
+					</div>
+					<div class="col-xs-3">
+						<div input-validation class="form-group">
+							<label class="control-label">Cliente:</label>
+							<ui-select ng-model="agendado.cliente" theme="select2"
+							name="cliente" on-select="validate()" required> <ui-select-match
+							placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+							<ui-select-choices
+							repeat="opt.codigo as opt in booleanValues | propsFilter: {codigo: $select.search, descrip: $select.search}">
+							<div ng-bind-html="opt.descrip | highlight: $select.search"></div>
+						</ui-select-choices> </ui-select>
+						<span input-validation-required>Campo obligatorio.</span>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<div input-validation class="form-group">
+						<label class="control-label">Proveedor:</label>
+						<ui-select ng-model="agendado.proveedor" theme="select2"
+						name="proveedor" on-select="validate()" required> <ui-select-match
+						placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+						<ui-select-choices
+						repeat="opt.codigo as opt in booleanValues | propsFilter: {codigo: $select.search, descrip: $select.search}">
+						<div ng-bind-html="opt.descrip | highlight: $select.search"></div>
+					</ui-select-choices> </ui-select>
+					<span input-validation-required>Campo obligatorio.</span>
+				</div>
+			</div>
+			<div class="col-xs-3">
+				<div class="form-group">
+					<label class="control-label">Fecha de Ingreso:</label> <input
+					class="form-control" type="text"  
+					value="{{agendado.fechaIngreso | date}}" disabled />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group">
+					<label class="control-label">Observaciones:</label>
+					<textarea class="form-control" name="observaciones"
+					ng-model="agendado.observaciones"></textarea>
+				</div>
+			</div>
+		</div>		
+		<br />		
+		<div class="panel panel-default">
+			<div class="panel-heading">Generales</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-4">
+						<div input-validation class="form-group">
+							<label class="control-label">Imputación Contable:</label>
+							<ui-select ng-model="agendado.codImputacionContableId"
+							theme="select2" name="codImputacionContableId" on-select="validate()" ng-required="true">
+							<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+							<ui-select-choices
+							repeat="plan.codigo as plan in planes | propsFilter: {codigo: $select.search, descrip: $select.search}">
+							<div ng-bind-html="plan.descrip | highlight: $select.search"></div>
+						</ui-select-choices> </ui-select>
+						<span input-validation-required>Campo obligatorio.</span>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div input-validation class="form-group">
+						<label class="control-label">Relación:</label>
+						<ui-select ng-model="agendado.relacionId" theme="select2"
+						name="relacionId" on-select="validate()" ng-required="true"> <ui-select-match
+						placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+						<ui-select-choices
+						repeat="relacion.codigo as relacion in relaciones | propsFilter: {codigo: $select.search, descrip: $select.search}">
+						<div ng-bind-html="relacion.descrip | highlight: $select.search"></div>
+					</ui-select-choices> </ui-select>
+					<span input-validation-required>Campo obligatorio.</span>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div input-validation class="form-group">
+					<label class="control-label">Vendedor:</label>
+					<ui-select ng-model="agendado.vendedorId" theme="select2"
+					name="vendedorId" on-select="validate()" ng-required="true"> <ui-select-match
+					placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+					<ui-select-choices
+					repeat="vendedor.codigo as vendedor in vendedores | propsFilter: {codigo: $select.search, descrip: $select.search}">
+					<div ng-bind-html="vendedor.descrip | highlight: $select.search"></div>
+				</ui-select-choices> </ui-select>
+				<span input-validation-required>Campo obligatorio.</span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4">
+			<div input-validation class="form-group">
+				<label class="control-label">Provincia:</label>
+				<ui-select ng-model="agendado.provinciaId" theme="select2"
+				name="provinciaId" on-select="validate()" ng-required="true"> <ui-select-match
+				placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+				<ui-select-choices
+				repeat="provincia.codigo as provincia in provincias | propsFilter: {codigo: $select.search, descrip: $select.search}">
+				<div ng-bind-html="provincia.descrip | highlight: $select.search"></div>
+			</ui-select-choices> </ui-select>
+			<span input-validation-required>Campo obligatorio.</span>
+		</div>
+	</div>
+	<div class="col-xs-4">
+		<div input-validation class="form-group">
+			<label class="control-label">Zona:</label>
+			<ui-select ng-model="agendado.zonaId" theme="select2"
+			name="zonaId" on-select="validate()" ng-required="true"> <ui-select-match
+			placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+			<ui-select-choices
+			repeat="zona.codigo as zona in zonas | propsFilter: {codigo: $select.search, descrip: $select.search}">
+			<div ng-bind-html="zona.descrip | highlight: $select.search"></div>
+		</ui-select-choices> </ui-select>
+		<span input-validation-required>Campo obligatorio.</span>
+	</div>
+</div>
+<div class="col-xs-4">
+	<div input-validation class="form-group">
+		<label class="control-label">Cobrador:</label>
+		<ui-select ng-model="agendado.cobradorId" theme="select2"
+		name="cobradorId" on-select="validate()" ng-required="true"> <ui-select-match
+		placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+		<ui-select-choices
+		repeat="vendedor.codigo as vendedor in vendedores | propsFilter: {codigo: $select.search, descrip: $select.search}">
+		<div ng-bind-html="vendedor.descrip | highlight: $select.search"></div>
+	</ui-select-choices> </ui-select>
+	<span input-validation-required>Campo obligatorio.</span>
+</div>
+</div>
+</div>
+<div class="row">
+	<div class="col-xs-4">
+		<div input-validation class="form-group">
+			<label class="control-label">Tipo de IVA:</label>
+			<ui-select ng-model="agendado.tipoIvaId" theme="select2"
+			name="tipoIvaId" on-select="validate()" ng-required="true"> <ui-select-match
+			placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+			<ui-select-choices
+			repeat="ivacodigo.codigo as ivacodigo in ivacodigos | propsFilter: {codigo: $select.search, descrip: $select.search}">
+			<div ng-bind-html="ivacodigo.descrip | highlight: $select.search"></div>
+		</ui-select-choices> </ui-select>
+		<span input-validation-required>Campo obligatorio.</span>
+	</div>
+</div>
+<div class="col-xs-4">
+	<div input-validation class="form-group">
+		<label class="control-label">Condición de Venta:</label>
+		<ui-select ng-model="agendado.condicionVenta"
+		theme="select2" name="condicionVenta" on-select="validate()" ng-required="true">
+		<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+		<ui-select-choices
+		repeat="condicionventa.codigo as condicionventa in condicionventas | propsFilter: {codigo: $select.search, descrip: $select.search}">
+		<div
+		ng-bind-html="condicionventa.descrip | highlight: $select.search"></div>
+	</ui-select-choices> </ui-select>
+	<span input-validation-required>Campo obligatorio.</span>
+</div>
+</div>
+<div class="col-xs-4">
+	<div input-validation class="form-group">
+		<label class="control-label">Vencimiento en Días:</label>
+		<ui-select ng-model="agendado.vencimientoDias"
+		theme="select2" name="vencimientoDias" on-select="validate()" ng-required="true">
+		<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+		<ui-select-choices
+		repeat="vencimientodia.codigo as vencimientodia in vencimientoDias | propsFilter: {codigo: $select.search, descrip: $select.search}">
+		<div
+		ng-bind-html="vencimientodia.descrip | highlight: $select.search"></div>
+	</ui-select-choices> </ui-select>
+	<span input-validation-required>Campo obligatorio.</span>
+</div>
+</div>
+</div>
+<div class="row">
+	<div class="col-xs-4">
+		<div input-validation class="form-group">
+			<label class="control-label">Lista de Precios:</label>
+			<ui-select ng-model="agendado.listaPrecio"
+			theme="select2" name="listaPrecio" on-select="validate()" ng-required="true">
+			<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+			<ui-select-choices
+			repeat="listadeprecio.codigo as listadeprecio in listaDePrecios | propsFilter: {codigo: $select.search, descrip: $select.search}">
+			<div
+			ng-bind-html="listadeprecio.descrip | highlight: $select.search"></div>
+		</ui-select-choices> </ui-select>
+		<span input-validation-required>Campo obligatorio.</span>
+	</div>
+</div>
+<div class="col-xs-4"></div>
+<div class="col-xs-4"></div>
+</div>
+</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Otros</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="form-group">
+					<label class="control-label">Proveedor Nr:</label> <input
+					class="form-control" type="text"
+					ng-model="agendado.proveedorNr" />
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="form-group inline">
+					<label class="control-label">Marcadores:</label>
+					<div class="form-inline">
+						<div class="checkbox">
+							<label><input type="checkbox"
+								ng-model="agendado.marcador1" ng-true-value="-1" ng-false-value="0" /> 1</label>
+							</div>
+							&nbsp;&nbsp;&nbsp;
+							<div class="checkbox">
+								<label><input type="checkbox"
+									ng-model="agendado.marcador2" ng-true-value="-1" ng-false-value="0" /> 2</label>
+								</div>
+								&nbsp;&nbsp;&nbsp;
+								<div class="checkbox">
+									<label><input type="checkbox"
+										ng-model="agendado.marcador3" ng-true-value="-1" ng-false-value="0" /> 3</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">Percepciones</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-xs-4">
+							<div input-validation class="form-group">
+								<label class="control-label">Percibe Inbresos Brutos:</label>
+								<ui-select ng-model="agendado.percibeIb" theme="select2" name="percibeIb" on-select="validate()" ng-required="true">
+									<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+									<ui-select-choices repeat="opt.codigo as opt in percibeIngresosBrutos | propsFilter: {codigo: $select.search, descrip: $select.search}">
+										<div ng-bind-html="opt.descrip | highlight: $select.search"></div>
+									</ui-select-choices>
+								</ui-select>
+								<span input-validation-required>Campo obligatorio.</span>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div input-validation class="form-group">
+								<label class="control-label">Percibe IVA:</label>
+								<ui-select ng-model="agendado.percibeIva" theme="select2" name="percibeIva" on-select="validate()" ng-required="true">
+									<ui-select-match placeholder="Seleccione una opción...">{{$select.selected.descrip}}</ui-select-match>
+									<ui-select-choices repeat="opt.codigo as opt in booleanValues | propsFilter: {codigo: $select.search, descrip: $select.search}">
+										<div ng-bind-html="opt.descrip | highlight: $select.search"></div>
+									</ui-select-choices>
+								</ui-select>
+								<span input-validation-required>Campo obligatorio.</span>
+							</div>
+						</div>
+						<div class="col-xs-4">
+							<div class="form-group">
+								<label class="control-label">Nr Agente de Ret/Percer IIBB:</label>
+								<input class="form-control" type="text" ng-model="agendado.numeroIb" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">Porcentajes</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-xs-6">
+							<div input-validation class="form-group">
+								<label class="control-label">Comisión de Venta:</label> <input
+								class="form-control" type="text"
+								ng-model="agendado.comisionVenta" name="comisionVenta" required validation-float />
+								<span input-validation-required>Campo obligatorio.</span>
+								<span input-validation-float>Número invalido.</span>
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<div input-validation class="form-group">
+								<label class="control-label">Comisión de Cobrador:</label> <input
+								class="form-control" type="text"
+								ng-model="agendado.comisionCobrador" name="comisionCobrador" required validation-float />
+								<span input-validation-required>Campo obligatorio.</span>
+								<span input-validation-float>Número invalido.</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<div input-validation class="form-group">
+								<label class="control-label">Crédito Cuenta Corriente
+									Pesos:</label> <input class="form-control" type="text"
+									ng-model="agendado.creditoCuenta" name="creditoCuenta" required validation-float />
+									<span input-validation-required>Campo obligatorio.</span>
+									<span input-validation-float>Número invalido.</span>
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div input-validation class="form-group">
+									<label class="control-label">Crédito Cheque Pesos:</label> <input
+									class="form-control" type="text"
+									ng-model="agendado.creditoCheques" name="creditoCheques" required validation-float />
+									<span input-validation-required>Campo obligatorio.</span>
+									<span input-validation-float>Número invalido.</span>
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="form-group">
+									<label class="control-label">Crédito Total Pesos:</label> <input
+									class="form-control" type="text" value="{{(agendado.creditoCuenta || 0) * 1 + (agendado.creditoCheques || 0) * 1}}" disabled />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4">
+								<div input-validation class="form-group">
+									<label class="control-label">Bonificación Std:</label> <input class="form-control" type="text"
+									ng-model="agendado.bonifStd" name="bonifStd" required validation-float />
+									<span input-validation-required>Campo obligatorio.</span>
+									<span input-validation-float>Número invalido.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="modal-footer">
+					<div class="col-xs-12 text-center">
+						<input type="button" class="btn btn-small btn-danger" value="Cancelar" ng-click="$parent.formCancel()" />
+						<input type="submit" class="btn btn-small btn-primary" value="{{ agendado.id === undefined ? 'Agregar' : 'Modificar' }}" />
+					</div>
+				</div>
+				
+			</div>
+		</div>	
+	</form>

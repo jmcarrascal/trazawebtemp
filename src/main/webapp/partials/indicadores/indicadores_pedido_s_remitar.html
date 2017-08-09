@@ -1,0 +1,46 @@
+<div class="content">
+	<alert-message></alert-message>
+	<alert-error></alert-error>
+
+	<div class="form-base1">
+
+		<div class="row-fluid">
+			<h4>Pedidos de venta sin remitar</h4>
+		</div>
+
+		<br/>
+		<div class="row-fluid">
+			<div>
+				<div align="left">
+					<input type="button" ng-click="generarIndice()"
+					class="btn btn-small btn-primary" value="Generar indice" />
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+		<br>
+		<div>
+			<div class="row-fluid">
+				<div class="col-xs-6">
+					<br>
+					<canvas id="data" class="chart chart-bar"
+					chart-data="data" chart-labels="labels" chart-series="series" chart-legend="true" chart-click="onClick">
+				</canvas>
+			</div>
+		</div>
+
+	</div>
+
+	<div>
+		<div class="row-fluid">
+			<div class="col-xs-6">
+				<br>
+				<canvas id="data_pick" class="chart chart-bar"
+				chart-data="data_pick" chart-labels="labels_pick" chart-series="series_pick" chart-legend="true" chart-click="onClick">
+			</canvas>
+		</div>
+	</div>	
+</div>
+</div>

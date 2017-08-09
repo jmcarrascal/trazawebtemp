@@ -1,0 +1,106 @@
+{
+	"headers": 
+	[
+		{
+			"name": "Fecha",
+			"align": 0,
+			"columnWidths": 2.0
+		},
+
+		{
+			"name": "ExiNr",
+			"align": 1,
+			"columnWidths": 2.0
+		},
+
+		{
+			"name": "Tipo Comprobante",
+			"align": 1,
+			"columnWidths": 3.0
+		},
+
+		{
+			"name": "Transac-Kardex",
+			"align": 1,
+			"columnWidths": 3.0
+		},
+
+		{
+			"name": "Articulo-Descripción",
+			"align": 1,
+			"columnWidths": 3.0
+		},
+
+		{
+			"name": "Cantidad 1",
+			"align": 1,
+			"columnWidths": 2.0
+		},
+
+		{
+			"name": "Observaciones",
+			"align": 1,
+			"columnWidths": 2.0
+		},
+
+		{
+			"name": "OperNr",
+			"align": 1,
+			"columnWidths": 2.0
+		},
+
+		{
+			"name": "Refef",
+			"align": 1,
+			"columnWidths": 2.0
+		}
+	],
+
+	"title": "Hala",
+	"data": 
+	[
+		{
+			"value": "14/04/2016",
+			"align": 0
+		},
+
+		{
+			"value": "1",
+			"align": 1
+		},
+
+		{
+			"value": "20",
+			"align": 1
+		},
+
+		{
+			"value": "92321-93241",
+			"align": 1
+		},
+
+		{
+			"value": "[224] FINABER 8 MG X 1 FA",
+			"align": 1
+		},
+
+		{
+			"value": "12.0",
+			"align": 1
+		},
+
+		{
+			"align": 1
+		},
+
+		{
+			"value": "10",
+			"align": 1
+		},
+
+		{
+			"value": "1.202323E7",
+			"align": 1
+		}
+	]
+}

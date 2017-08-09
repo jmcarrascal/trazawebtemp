@@ -1,0 +1,301 @@
+<style>
+    .fadee.ng-enter {
+        transition: 0.8s linear all;
+        opacity: 0;
+    }
+    /* The finishing CSS styles for the enter animation */
+
+    .fadee.ng-enter.ng-enter-active {
+        opacity: 1;
+    }
+</style>
+
+<!-- settings changer -->
+
+
+
+<!-- Users table -->
+<div class="content">
+    <div ng-show="message !== null" class="alert alert-success" role="alert">
+		<button type="button" class="close" ng-click="hideAlerts()" aria-label="Close">
+    		<span aria-hidden="true">&times;</span>
+  		</button>
+		<strong>{{message}}</strong>
+	</div>
+	<div ng-show="error !== null" class="alert alert-danger" role="alert">
+		<button type="button" class="close" ng-click="hideAlerts()" aria-label="Close">
+    		<span aria-hidden="true">&times;</span>
+  		</button>
+		<strong>{{error}}</strong>
+	</div>
+    <div class="form-base1">
+        <div class="row-fluid">
+            <h4>
+                <button onclick="goBack()"><i class="fa fa-arrow-left" aria-hidden="true"></i> | </button>
+                <a ng-show="isAgendado" href="" ng-click="preparedEditAgendado()"> {{agendado.descripC}}</a>
+                <a ng-show="isArticulo"> Artículo: {{articuloId}}</a> - Operaciones
+            </h4>
+        </div>
+        <div class="form-base form_content">
+            <div class="row">
+                <div class="col-xs-2">
+                    <label class="control-label">Buscar:</label> <input class="form-control" type="text" ng-model="busqueda.texto"
+                        ng-enter="searchTransacciones('init')" placeholder="" focus-on-condition="true"></input>
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        <label class="control-label">Tipo Comprobante:</label>
+                        <ui-select ng-model="busqueda.tipoComprobante" theme="select2" on-select="searchTransacciones('init')">
+                            <ui-select-match placeholder="Todos">{{$select.selected.descrip}}</ui-select-match>
+                            <ui-select-choices repeat="item.codigo as item in tiposDeComprobante | propsFilter: {codigo: $select.search, descrip: $select.search}">
+                                <div ng-bind-html="item.descrip | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        <label class="control-label">Estado:</label>
+                        <ui-select ng-model="busqueda.estado" theme="select2" on-select="searchTransacciones('init')">
+                            <ui-select-match>{{$select.selected.descrip}}</ui-select-match>
+                            <ui-select-choices repeat="estado.codigo as estado in estados | propsFilter: {codigo: $select.search, descrip: $select.search}">
+                                <div ng-bind-html="estado.descrip | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                 <div class="col-xs-2">
+                	<li><button class="btn btn-secondary" ng-enter="searchTransacciones('init')" ng-click="searchTransacciones('init')" style="margin-top:16px"><i class="fa fa-search" aria-hidden="true"/></button></li>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-show="transacciones.length != 0" ng-cloak class="box-content mtop box-view" sidebar-directive="state" ng-class="{'pushmenu-push' : toggle.state}"
+        tagged-infinite-scroll="get_items()" tagged-infinite-scroll-disabled="false">
+
+        <ul>
+            <div class="counter" style="min-width: 528px; max-width: 576px">
+                <span>{{transacciones.length}}</span> de <span>{{total_items}}</span>
+
+                <div class="inline-block sortBy">
+                    |
+                    <a ng-click="sort_by('instance.created_on')" ng-class="{'dropup': is_active_sorting_asc('instance.created_on')}">
+                        <span ng-class="{'bold': is_active_sorting('instance.created_on')}">Fecha</span>
+                        <span class="caret"></span>
+                    </a>
+                    <a ng-click="sort_by('id')" ng-class="{'dropup': is_active_sorting_asc('id')}"> <span ng-class="{'bold': is_active_sorting('id')}">Cercanía</span> <span class="caret"></span>
+                    </a>
+                    <a ng-click="sort_by('commiter.cn')" ng-class="{'dropup': is_active_sorting_asc('commiter.cn')}">
+                    <span ng-class="{'bold': is_active_sorting('commiter.cn')}">Saldo</span>
+                        <span class="caret"></span>
+                    </a>
+                </div>
+                <moorea-select class="moorea-select inline-block middle" style="width: 200px;" placeholder="Filtrar por ..." showby="true"
+                    dataset="distinct_tasks" name="selected_filter_task" ng-change="set_filter_and_refresh(selected_filter_task)"
+                    ng-model="selected_filter_task"></moorea-select>
+            </div>
+
+            <li class="boxes fade1" tabindex="0" ng-repeat="current_transac in transacciones">
+                <div>
+                    <h4>
+                        <b style="cursor: pointer;" ng-click="preparedEdit(current_transac.transacNr)">{{current_transac.tipoComprob.descripcion + ' ' + current_transac.letra + ' ' + current_transac.prefijo + '-' + current_transac.nrComprob+ ' / ' + (current_transac.transacNr) }} </b>
+                        <span ng-show="current_transac.tipoComprob.nr == 8 && current_transac.destino ==-5" class="label label-warning">Pendiente de aprobación</span>
+                    </h4>
+                    <span class="instance-description">{{current_transac.gente.descripC + ' '+ current_transac.gente.cuit}}</span>
+                </div>
+                <div class="pull-right">
+                    <div class="actions dropdown">
+                        <a class="dropdown-toggle btn btn-primary" data-toggle="dropdown">Acciones</a>
+                        <ul class="dropdown-menu">
+                            <li ng-show="current_transac.tipoComprob.nr == 1"><a>Nota de crédito</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 1"><a>Nota de débito</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 8"><a>Aprobar pedido de venta</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 8"><a>Remito</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 8"><a>Factura</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 8" ng-click="clonarPedido(current_transac.transacNr)"><a>Clonar pedido de venta</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 8" ng-click="editarPedido(current_transac.transacNr)"><a>Editar pedido de venta</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 8" ng-click="openConfirmCancelModal(current_transac.transacNr)" confirm="Are you sure?"><a>Cancelar pedido de venta</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 8" ng-click="openAdjuntoModal(current_transac.transacNr)"><a>Ver archivos adjuntos</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 16" ng-click="proformaToPedido(current_transac.transacNr)"><a>Crear pedido de venta</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 16" ng-click="openConfirmCancelModal(current_transac.transacNr)" confirm="Are you sure?"><a>Cancelar Proforma</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 16" ng-click="openAdjuntoModal(current_transac.transacNr)""><a>Ver archivos adjuntos</a></li>
+                            <li ng-show="current_transac.tipoComprob.nr == 3"><a>Viaje</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <br/>
+                <ul>
+                    <li class="col-md-3" ng-if="vista!='crm'">
+                        <span>Importe Total</span><br />
+                        <b>{{current_transac.total | currency}}</b>
+                    </li>
+                    <li class="col-md-3" ng-if="vista!='crm'">
+                        <span>Saldo</span><br />
+                        <b>{{current_transac.saldo | currency}}</b>
+                    </li>
+                    <li class="col-md-3">
+                        <span>Fecha creación</span><br />
+                        <b>{{current_transac.fecha | date:'shortDate':'+0000' }}</b>
+                    </li>
+                    <li class="col-md-3" ng-if="vista!='crm'">
+                        <span>E-Mail</span><br />
+                        <b>{{current_transac.email || "&nbsp;"}}</b>
+                    </li>
+
+                    <li class="col-md-3" ng-if="vista!='crm'">
+                        <span>Código Postal</span><br />
+                        <b>{{current_transac.codigoPostal || "&nbsp;"}}</b>
+                    </li>
+                    <li class="col-md-3" ng-if="vista!='crm'">
+                        <span>Localidad</span><br />
+                        <b>{{current_transac.localidad || "&nbsp;"}}</b>
+                    </li>
+                    <li class="col-md-3" ng-if="vista!='crm'">
+                        <span>Provincia</span><br />
+                        <b>{{current_transac.provincia || "&nbsp;"}}</b>
+                    </li>
+                    <li class="col-md-3" ng-if="vista!='crm'">
+                        <span>Pais</span><br />
+                        <b>{{current_transac.pais || "&nbsp;"}}</b>
+                    </li>
+
+                    <li class="col-md-3" ng-if="vista!='crm'">
+                        <span>Fecha Entrega</span><br />
+                        <b>{{current_transac.fechaEntrega  | date:'shortDate':'+0000' }}</b>
+                    </li>
+                    <li class="col-md-3">
+                        <span>Domicilio Entrega</span><br />
+                        <b>{{current_transac.domicilioEntrega.domicilio}}</b>
+                    </li>
+
+                    <li class="col-md-3">
+                        <span>Localidad Entrega</span><br />
+                        <b>{{current_transac.domicilioEntrega.localidad}}</b>
+                    </li>
+                    <li class="col-md-3">
+                        <span>Provincia Entrega</span><br />
+                        <b>{{current_transac.domicilioEntrega.provincia}}</b>
+                    </li>
+                    <li class="col-md-3" ng-if="current_transac.tipoComprob.descripcion == 'Factura'">
+                        <span>Comisión</span><br />
+                        <b>{{ current_transac.total*0.1 | currency}}</b>
+                    </li>
+                    <li class="col-md-3" ng-if="vista=='crm'">
+                        <span>Estado Pedido</span><br />
+                        <b>{{current_transac.estadoPedidoDeVenta.descrip || "&nbsp;"}}</b>
+                    </li>
+
+                    <li class="col-md-3" ng-if="vista=='crm'">
+                        <span>Fecha Ultimo Estado</span><br />
+                        <b>{{current_transac.estadoPedidoDeVenta.fechaEstado  | date:'dd-MM-yyyy'}}</b>
+                    </li>
+                    <li class="col-md-3" ng-if="vista=='crm'">
+                        <span>Transportista</span><br />
+                        <b>{{current_transac.transportista || "&nbsp;"}}</b>
+                    </li>
+
+                </ul>
+                <br />
+            </li>
+        </ul>
+
+    </div>
+
+</div>
+
+
+<div id="viewFlow" class="modal fade mwidth" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h5 id="myModalLabel">{{instance_name}} > Flujo</h5>
+    </div>
+    <div class="modal-header">
+        <div style="z-index: 2999" class="contenEditor container-fluid">
+            <div class="workspaceScrollArea">
+                <div class="workspace">
+                    <div style="overflow-x: scroll" id="container" ng-rflow></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="bitacora" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+                <h5 class="modal-title" id="myModalLabel">Bitácora</h5>
+            </div>
+            <div class="modal-body">
+                <div ng-repeat="log in logs">
+                    <b>{{log.msg}}</b></br>
+                </div>
+
+                <div class="modal-notif" ng-if="logs.length == 0 && fetching_log">Cargando mensajes...
+                </div>
+                <div class="modal-notif" ng-if="logs.length == 0 && !fetching_log">No hay mensajes...</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmCancel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+                <h4 class="modal-title" id="myModalLabel">Cancelar Pedido de venta</h4>
+            </div>
+            <div class="modal-body">
+            <h6>¿Estás seguro que desea cancelar el Pedido de Venta?</h6>
+            	
+            </div>
+            <div class="modal-footer">
+            	<button class="btn btn-primary" ng-click="cancelarPedido()">Aceptar</button>
+            	<button class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="adjuntosModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Archivos adjuntos</h4>
+            </div>
+            <div class="modal-body">
+				<h4 ng-if="adjuntos == undefined">No tiene archivos adjuntos</h4>
+		  		<li ng-repeat="file in adjuntos" style="font:smaller; width: 50%; float: left;	">
+		  			<a ng-href="/cipres/rest/transac/getTransacFile/{{transacNr}}/{{file}}"><i class="fa fa-download" aria-hidden="true"></i> {{file}} {{file.$errorParam}}</a>	
+		  			<br></br>
+				</li>
+			</div>
+			<div class="modal-footer">
+		    	<button class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+	        </div>
+    	</div>
+    </div>
+</div>
+<modal-form data="agendadoEdit" form-url="partials/agendados/agendado_edit.html"></modal-form>
+
+<modal-form data="transaccionEdit" form-url="partials/transacciones/transaccion_edit.html"></modal-form>
+<!-- <modal-form data="transacciones_edit" form-url="partials/transacciones/transacciones_edit.html"></modal-form> -->	
