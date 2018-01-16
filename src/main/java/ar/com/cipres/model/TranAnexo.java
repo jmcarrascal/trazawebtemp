@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "trananexo", schema = " Empresa1.dbo")
+@Table(name = "trananexo", schema = "")
 public class TranAnexo implements java.io.Serializable {
 	
 	private String id;

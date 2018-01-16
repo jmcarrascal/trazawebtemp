@@ -17,20 +17,20 @@ public class SetSchema {
 	/**
 	 * @param args
 	 */
-	private String rutaArchivos = "/Users/juanmanuelcarrascal/projects/ERP/trazaweb/src/data/";
+	private String rutaArchivos = "/Users/juanmanuelcarrascal/projects/ERP/trazawebtemp/src/data/";
 	
 	private String anotacion = "@Table";
 	
 	public static void main(String[] args) {			
 		
 		//Recorrer los archivos
-		String rutaModel = "/Users/juanmanuelcarrascal/projects/ERP/trazaweb/src/main/java/ar/com/cipres/model/";
+		String rutaModel = "/Users/juanmanuelcarrascal/projects/ERP/trazawebtemp/src/main/java/ar/com/cipres/model/";
 		//String empresa = "contempo.txt";
-		String empresa = "empresa1.txt";
+//		String empresa = "empresa1.txt";
 //		String empresa = "mysql.txt";
 //		String empresa = "bika.txt";
 //		String empresa = "mysql_transac.txt";
-      //  String empresa = "TransacSql.txt";
+        String empresa = "TransacSql.txt";
 //		String empresa = "wilde.txt";
 //        String empresa = "sanblas.txt";
 		File repositorio = new File(rutaModel);

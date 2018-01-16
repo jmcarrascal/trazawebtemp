@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "detaviajes", schema = "Empresa1.dbo")
+@Table(name = "detaviajes", schema = "TransacSql.dbo")
 public class DetaViajes implements java.io.Serializable {
 	
 	
