@@ -23,7 +23,7 @@ import com.google.gson.annotations.Expose;
  */
 @Entity
 @DynamicInsert
-@Table(name = "gente", schema = "ComunSql.dbo")
+@Table(name = "gente", schema = "ComunDistri.dbo")
 public class Gente implements java.io.Serializable {
 	@Expose
 	private Integer id;

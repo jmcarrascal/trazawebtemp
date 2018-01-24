@@ -30,9 +30,10 @@ public class SetSchema {
 //		String empresa = "mysql.txt";
 //		String empresa = "bika.txt";
 //		String empresa = "mysql_transac.txt";
-        String empresa = "TransacSql.txt";
+//        String empresa = "TransacSql.txt";
 //		String empresa = "wilde.txt";
 //        String empresa = "sanblas.txt";
+        String empresa = "distri.txt";
 		File repositorio = new File(rutaModel);
 		File[] fileList = repositorio.listFiles();
 		SetSchema setSchema = new SetSchema();
