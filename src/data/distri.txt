@@ -40,3 +40,4 @@ Lugares,ComunDistri.dbo|lugares
 DomiciliosAnexo, trazawebDistri.dbo|domiciliosanexo
 ClieArticPrecio, ComunDistri.dbo|cliearticprecio
 TranAnexo, Distri.dbo|trananexo
+UsuariosExistencias,trazawebDistri.dbo
