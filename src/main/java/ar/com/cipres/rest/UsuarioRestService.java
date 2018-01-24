@@ -54,18 +54,19 @@ public class UsuarioRestService {
 
 	@POST
 	@Path("/create")
-	@Consumes(MediaType.APPLICATION_JSON)
+	//@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_HTML)
-	public Response save(String json) {
+	public Response save(Usuario usuario) {
 		Response response = Response.status(Status.OK.getStatusCode()).build();
 		try {
-			JsonObject jSon = new Gson().fromJson(json, JsonObject.class);
-			Usuario usuario = new Gson().fromJson(jSon.get("user"), Usuario.class);
+			//JsonObject jSon = new Gson().fromJson(json, JsonObject.class);
+			//Usuario usuario = new Gson().fromJson(jSon.get("user"), Usuario.class);
 			Type type = new TypeToken<List<Integer>>() {
 			}.getType();
-			List<Integer> lExistencias = new Gson().fromJson(jSon.get("existencias"), type);
+			//List<Integer> lExistencias = new Gson().fromJson(jSon.get("existencias"), type);
 			UsuariosExistencias oExistencias;
-
+			List<Integer> lExistencias = new ArrayList<Integer>();
+			
 			Serializable idUsuario = usuarioDAO.save(usuario);
 			if (idUsuario != null) {
 				for (Integer nrExistencia : lExistencias) {
