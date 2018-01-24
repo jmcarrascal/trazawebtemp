@@ -10,14 +10,14 @@ Impuestos,Distri.dbo
 Items,Distri.dbo
 Kardex,Distri.dbo
 NumerKar,Distri.dbo
-Rol,trazaweb.dbo
+Rol,trazawebDistri.dbo
 Stock,ComunDistri.dbo
 StockBasic,ComunDistri.dbo|Stock
 Transac,Distri.dbo
 TipoComprob,Distri.dbo
 Trazabi,ComunDistri.dbo
-Usuario,trazaweb.dbo
-Parametrizacion,trazaweb.dbo
+Usuario,trazawebDistri.dbo
+Parametrizacion,trazawebDistri.dbo
 StockBasic,ComunDistri.dbo
 Operadores,ComunDistri.dbo
 CondicionVenta,ComunDistri.dbo|condi
@@ -30,13 +30,13 @@ Zona,ComunDistri.dbo|zona
 Vendedor,ComunDistri.dbo
 Familia,ComunDistri.dbo|fam
 SubFamilia,ComunDistri.dbo|subfam
-ExistenciasIndicadores,trazaweb.dbo
-PrefijoExistencia,trazaweb.dbo
+ExistenciasIndicadores,trazawebDistri.dbo
+PrefijoExistencia,trazawebDistri.dbo
 DetaViajes,Distri.dbo|detaviajes
 Viaje,Distri.dbo|viajes
 Tracking,Distri.dbo|tracking
 Numeraciones,Distri.dbo|numeraciones
 Lugares,ComunDistri.dbo|lugares
-DomiciliosAnexo, trazaweb.dbo|domiciliosanexo
+DomiciliosAnexo, trazawebDistri.dbo|domiciliosanexo
 ClieArticPrecio, ComunDistri.dbo|cliearticprecio
 TranAnexo, Distri.dbo|trananexo
