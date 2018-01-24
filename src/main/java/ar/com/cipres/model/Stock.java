@@ -641,7 +641,7 @@ public class Stock implements java.io.Serializable {
 	public void setStockReal(Double stockReal) {
 		this.stockReal = stockReal;
 	}
-	
+	@Transient
 	public String getTroquel() {
 		return troquel;
 	}
