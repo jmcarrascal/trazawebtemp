@@ -54,7 +54,7 @@ public class UsuarioRestService {
 
 	@POST
 	@Path("/create")
-	//@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_HTML)
 	public Response save(Usuario usuario) {
 		Response response = Response.status(Status.OK.getStatusCode()).build();

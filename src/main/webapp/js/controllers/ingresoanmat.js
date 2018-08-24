@@ -229,8 +229,9 @@ app.controller('IngresoAnmatController', [ '$scope', '$rootScope', '$routeParams
 						var serial_send = array_element['_numero_serial'];
 						var element_unit = array_element;
 						var listStock = [];
+						var gtin_buscar = array_element['_gtin']
 						StockFactory.findStockByGtinAll({
-							"id" : array_element['_gtin']
+							"id" : gtin_buscar
 						}, function(data){
 							desbloquearVista();
 							if (data.success) {
@@ -250,6 +251,10 @@ app.controller('IngresoAnmatController', [ '$scope', '$rootScope', '$routeParams
 
 									
 								} else {
+									if (data.list.length == 0) {
+										$scope.error = "El GTIN " + gtin_buscar + " no esta dado de alta en la tabla Stock";
+									}else{
+									console.log(data.list);
 									$scope['medicamento']['idArticulo'] = data.list[0]['id']
 									var element_back = data.list[0];
 									element_back['_gtin'] = data.list[0]['gtin'];
@@ -257,7 +262,7 @@ app.controller('IngresoAnmatController', [ '$scope', '$rootScope', '$routeParams
 									$scope.medicamento_duplicado = element_back;
 									
 									$scope.validateAddMedicamento($scope['medicamento']['idArticulo'], element_back, $scope.hash);
-									
+								}	
 								}
 							}
 						}, function(error){
