@@ -21,7 +21,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 @Entity
 //@Table(name = "rol", catalog = "produsimpa", uniqueConstraints = @UniqueConstraint(columnNames = "nombre"))
-@Table(name = "rol", schema = "trazawebDistri.dbo")
+@Table(name = "rol", schema = "trazawebNewDistri.dbo")
 public class Rol implements java.io.Serializable {
 
 	private Integer id;

@@ -33,7 +33,7 @@ public class SetSchema {
 //        String empresa = "TransacSql.txt";
 //		String empresa = "wilde.txt";
 //        String empresa = "sanblas.txt";
-        String empresa = "distri.txt";
+        String empresa = "newDistri.txt";
 		File repositorio = new File(rutaModel);
 		File[] fileList = repositorio.listFiles();
 		SetSchema setSchema = new SetSchema();

@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usuariosexistencias", schema = "trazawebDistri.dbo")
+@Table(name = "usuariosexistencias", schema = "trazawebNewDistri.dbo")
 public class UsuariosExistencias implements java.io.Serializable {
 
 	@Id

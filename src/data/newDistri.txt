@@ -1,0 +1,43 @@
+ArtDespa,ComunNewDistri.dbo
+ArticuloMadre,ComunNewDistri.dbo|ArtMadre
+Domicilios,ComunNewDistri.dbo
+Despachos,ComunNewDistri.dbo
+ExiArt,ComunNewDistri.dbo
+Existencias,ComunNewDistri.dbo
+Gente,ComunNewDistri.dbo
+GenteShort,ComunNewDistri.dbo|Gente
+Impuestos,NewDistri.dbo
+Items,NewDistri.dbo
+Kardex,NewDistri.dbo
+NumerKar,NewDistri.dbo
+Rol,trazawebNewDistri.dbo
+Stock,ComunNewDistri.dbo
+StockBasic,ComunNewDistri.dbo|Stock
+Transac,NewDistri.dbo
+TipoComprob,NewDistri.dbo
+Trazabi,ComunNewDistri.dbo
+Usuario,trazawebNewDistri.dbo
+Parametrizacion,trazawebNewDistri.dbo
+StockBasic,ComunNewDistri.dbo
+Operadores,ComunNewDistri.dbo
+CondicionVenta,ComunNewDistri.dbo|condi
+IvaCodigo,ComunNewDistri.dbo|ivacod
+Plan,ComunNewDistri.dbo|plan
+Provincia,ComunNewDistri.dbo|prov
+Relacion,ComunNewDistri.dbo|relacion
+Transporte,ComunNewDistri.dbo|trans
+Zona,ComunNewDistri.dbo|zona 
+Vendedor,ComunNewDistri.dbo
+Familia,ComunNewDistri.dbo|fam
+SubFamilia,ComunNewDistri.dbo|subfam
+ExistenciasIndicadores,trazawebNewDistri.dbo
+PrefijoExistencia,trazawebNewDistri.dbo
+DetaViajes,NewDistri.dbo|detaviajes
+Viaje,NewDistri.dbo|viajes
+Tracking,NewDistri.dbo|tracking
+Numeraciones,NewDistri.dbo|numeraciones
+Lugares,ComunNewDistri.dbo|lugares
+DomiciliosAnexo, trazawebNewDistri.dbo|domiciliosanexo
+ClieArticPrecio, ComunNewDistri.dbo|cliearticprecio
+TranAnexo, NewDistri.dbo|trananexo
+UsuariosExistencias,trazawebNewDistri.dbo
