@@ -64,7 +64,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "parametrizacion", schema = "trazawebNewDistri.dbo")
+@Table(name = "parametrizacion", schema = "trazaweb.dbo")
 public class Parametrizacion {
 
 	private Integer idParametrizacion;

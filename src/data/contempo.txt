@@ -1,22 +1,43 @@
 ArtDespa,ComunSql.dbo
-ArtMadre,ComunSql.dbo
+ArticuloMadre,ComunSql.dbo|ArtMadre
 Domicilios,ComunSql.dbo
 Despachos,ComunSql.dbo
 ExiArt,ComunSql.dbo
 Existencias,ComunSql.dbo
-Gente,ComunSql.dbo		
-GenteShort,ComunSql.dbo		
+Gente,ComunSql.dbo
+GenteShort,ComunSql.dbo|Gente
 Impuestos,Contempo.dbo
 Items,Contempo.dbo
 Kardex,Contempo.dbo
 NumerKar,Contempo.dbo
 Rol,trazaweb.dbo
 Stock,ComunSql.dbo
-StockBasic,ComunSql.dbo
+StockBasic,ComunSql.dbo|Stock
 Transac,Contempo.dbo
 TipoComprob,Contempo.dbo
 Trazabi,ComunSql.dbo
 Usuario,trazaweb.dbo
-Parametrizacion, trazaweb.dbo
+Parametrizacion,trazaweb.dbo
 StockBasic,ComunSql.dbo
-Operadores, ComunSql.dbo
+Operadores,ComunSql.dbo
+CondicionVenta,ComunSql.dbo|condi
+IvaCodigo,ComunSql.dbo|ivacod
+Plan,ComunSql.dbo|plan
+Provincia,ComunSql.dbo|prov
+Relacion,ComunSql.dbo|relacion
+Transporte,ComunSql.dbo|trans
+Zona,ComunSql.dbo|zona 
+Vendedor,ComunSql.dbo
+Familia,ComunSql.dbo|fam
+SubFamilia,ComunSql.dbo|subfam
+ExistenciasIndicadores,trazaweb.dbo
+PrefijoExistencia,trazaweb.dbo
+DetaViajes,Contempo.dbo|detaviajes
+Viaje,Contempo.dbo|viajes
+Tracking,Contempo.dbo|tracking
+Numeraciones,Contempo.dbo|numeraciones
+Lugares,ComunSql.dbo|lugares
+DomiciliosAnexo, trazaweb.dbo|domiciliosanexo
+ClieArticPrecio, ComunSql.dbo|cliearticprecio
+TranAnexo, Contempo.dbo|trananexo
+UsuariosExistencias,trazaweb.dbo

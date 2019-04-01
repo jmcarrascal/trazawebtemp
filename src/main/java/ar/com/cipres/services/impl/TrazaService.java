@@ -98,7 +98,7 @@ public class TrazaService implements ITrazaService {
 
 	@Autowired
 	private IParametrizacionDAO parametrizacionDAO;
-	
+	 
 	@Autowired
 	private IPrefijoExistenciaDAO prefijoExistenciaDAO;
 
@@ -938,8 +938,10 @@ public class TrazaService implements ITrazaService {
 					// Actulizo trazabi
 					trazabi.setRespuestaSalida(smr.getSendMedicamentosResponse().get_return().getCodigoTransaccion());
 					trazabiDAO.update(trazabi);
+					//Demora
+					Long resta = (new Timestamp(System.currentTimeMillis())).getTime() - inicio.getTime();
 					System.out.println("Nr Transac Respuesta: "
-							+ smr.getSendMedicamentosResponse().get_return().getCodigoTransaccion());
+							+ smr.getSendMedicamentosResponse().get_return().getCodigoTransaccion() + " Tiempo de respuesta: " + resta);
 				}
 			} catch (Exception e) {
 				msg = "No se pudo conectar con el servidor de ANMAT";

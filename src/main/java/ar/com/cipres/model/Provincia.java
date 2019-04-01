@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "prov", schema = "ComunNewDistri.dbo")
+@Table(name = "prov", schema = "ComunSql.dbo")
 public class Provincia implements java.io.Serializable {
 	private Integer id;
 	private String descripcion;
