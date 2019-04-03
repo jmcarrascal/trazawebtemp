@@ -119,7 +119,6 @@ public class Usuario implements java.io.Serializable {
 	}
 
 	@Column(name = "password", nullable = false)
-	@JsonIgnore
 	public String getPassword() {
 		return this.password;
 	}
