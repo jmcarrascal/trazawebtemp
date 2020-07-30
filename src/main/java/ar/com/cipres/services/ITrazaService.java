@@ -34,4 +34,9 @@ public interface ITrazaService {
 	public String getCaja(String hash);
 	
 	
+	public String sendMedicamentosTest(Integer transacNr);
+	
+    public String testAsync(String principal);
+	
+	
 }

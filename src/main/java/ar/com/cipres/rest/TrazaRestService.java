@@ -51,6 +51,7 @@ public class TrazaRestService {
 	
 	@Autowired
 	private ITransacService transacService;
+	
 
 	@GET
  	@Path("/get_user")
@@ -175,7 +176,26 @@ public class TrazaRestService {
 		} catch (NumberFormatException e) {
 			return "El formato de la transaccion no es valido";
 		}
-		msg = trazaService.sendMedicamentos(transacNrInt);
+		trazaService.sendMedicamentos(transacNrInt);
+
+		return "OK";
+	}
+	
+	
+	@GET
+	@Path("/sendMedicamentoTest/{transacNr}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Transactional(readOnly = false)
+	public String sendMedicamentoTest(@PathParam("transacNr") String transacNr) {
+		// Invoco al metodo de facturacion
+		String msg = "";
+		Integer transacNrInt = 0;
+		try {
+			transacNrInt = Integer.parseInt(transacNr);
+		} catch (NumberFormatException e) {
+			return "El formato de la transaccion no es valido";
+		}
+		msg = trazaService.testAsync(transacNr);
 
 		return msg;
 	}

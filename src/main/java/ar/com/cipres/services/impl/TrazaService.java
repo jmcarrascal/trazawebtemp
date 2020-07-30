@@ -17,6 +17,7 @@ import org.apache.axiom.om.OMNamespace;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.client.ServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -98,7 +99,7 @@ public class TrazaService implements ITrazaService {
 
 	@Autowired
 	private IParametrizacionDAO parametrizacionDAO;
-	 
+
 	@Autowired
 	private IPrefijoExistenciaDAO prefijoExistenciaDAO;
 
@@ -299,7 +300,7 @@ public class TrazaService implements ITrazaService {
 				for (TransaccionPlainWS t : geR.getGetTransaccionesNoConfirmadasResponse().get_return().getList()) {
 					TransaccionPlainWS tmp = new TransaccionPlainWS();
 					tmp.set_id_transaccion(t.get_id_transaccion());
-					//tmp.setSelected(false);
+					// tmp.setSelected(false);
 					tmp.set_gtin(t.get_gtin());
 					tmp.set_nombre(t.get_nombre());
 					tmp.set_numero_serial(t.get_numero_serial());
@@ -340,8 +341,6 @@ public class TrazaService implements ITrazaService {
 			useOC = false;
 		} else {
 
-			
-
 			if (transacSk == null) {
 				return new JsonResultIngresoMercaderia(false, "El número de transacción ingresado no se es válido");
 			} else {
@@ -361,26 +360,30 @@ public class TrazaService implements ITrazaService {
 					Integer.parseInt(parametrizacionDAO.getByPrimaryKey(Constants.PARAM_EXIT_DEFAULT).getValor()));
 		} else {
 
-			if (useOC) {				
-				try{
-					existencias.setNr(prefijoExistenciaDAO.getPrefijoExistencia(transacSk.getPrefijo()).get(0).getNrExistencia());
-				}catch(Exception e){
+			if (useOC) {
+				try {
+					existencias.setNr(
+							prefijoExistenciaDAO.getPrefijoExistencia(transacSk.getPrefijo()).get(0).getNrExistencia());
+				} catch (Exception e) {
 					e.printStackTrace();
-					existencias.setNr(Integer.parseInt(parametrizacionDAO.getByPrimaryKey(Constants.PARAM_EXIT_DEFAULT).getValor()));
+					existencias.setNr(Integer
+							.parseInt(parametrizacionDAO.getByPrimaryKey(Constants.PARAM_EXIT_DEFAULT).getValor()));
 				}
-				
+
 			} else {
 				existencias.setNr(
 						Integer.parseInt(parametrizacionDAO.getByPrimaryKey(Constants.PARAM_EXIT_DEFAULT).getValor()));
 			}
 		}
-		
+
 		if (dataSendAnmat.getTransacNr() == 0) {
 			useOC = false;
-			try{
-				existencias.setNr(Integer.parseInt(parametrizacionDAO.getByPrimaryKey(Constants.PARAM_EXIT_ZERO).getValor()));
-			}catch(Exception e){}
-		} 
+			try {
+				existencias.setNr(
+						Integer.parseInt(parametrizacionDAO.getByPrimaryKey(Constants.PARAM_EXIT_ZERO).getValor()));
+			} catch (Exception e) {
+			}
+		}
 		Integer sucursalNr = 1;
 		for (TransaccionPlainWS transacSerie : dataSendAnmat.getArrayTransac()) {
 			if (transacSerie.getSelected() != null && transacSerie.getSelected()) {
@@ -481,7 +484,7 @@ public class TrazaService implements ITrazaService {
 							despachos.setSoloLote(transacSerie.get_lote());
 							despachos.setTrazable(-1);
 							despachosDAO.save(despachos);
-							
+
 							despanr = despachos.getDespaNr();
 							despachos_ = despachos;
 						}
@@ -587,23 +590,22 @@ public class TrazaService implements ITrazaService {
 				if (!usuario.getRol().getAbrev().equals("INGRESO_DEVOLUCIONES")) {
 					// Actualizar stock ExiArt
 					for (ExiArt exiArtUpdate : exiArtList) {
-						
+
 						ExiArtId exiArtId = exiArtUpdate.getId();
 
 						ExiArt exiArt = exiArtDAO.getByPrimaryKey(exiArtId);
-						if (exiArt == null){
+						if (exiArt == null) {
 							exiArt = new ExiArt();
 							exiArt.setId(exiArtId);
 							exiArt.setCantidad1(exiArtUpdate.getCantidad1());
 							exiArt.setCantidad2(0d);
 							exiArtDAO.save(exiArt);
-						}else{
+						} else {
 							exiArt.setCantidad1(exiArt.getCantidad1() + exiArtUpdate.getCantidad1());
 							exiArtDAO.update(exiArt);
-							
+
 						}
-						
-						
+
 						if (useOC) {
 							// Dar de baja articulos en la orden de compra
 							// Encontrar Item
@@ -638,12 +640,12 @@ public class TrazaService implements ITrazaService {
 							kardex.setCantidad2(0f);
 
 							kardex.setSubtotal(kardexInfoK.getDespacho());
-							try{
+							try {
 								kardex.setDespachos(despachosDAO.getByPrimaryKey(kardexInfoK.getDespacho().intValue()));
-							}catch(Exception e){
+							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							if (useOC) {
 								kardex.setObser(transacSk.getGente().getRazonSocial() + " " + kardexInfoK.getFactura());
 							} else {
@@ -652,9 +654,9 @@ public class TrazaService implements ITrazaService {
 							kardex.setExistenciaNr(existencias.getNr());
 							kardex.setFechaComprob(DateUtil.getDateSkString(new Date(System.currentTimeMillis())));
 							kardex.setFechaTransac(new Date(System.currentTimeMillis()));
-							try{
+							try {
 								kardex.setOperadorNr(usuario.getUsersk());
-							}catch(Exception e){
+							} catch (Exception e) {
 								kardex.setOperadorNr(10);
 							}
 							if (useOC) {
@@ -807,7 +809,9 @@ public class TrazaService implements ITrazaService {
 		}
 
 	}
-
+	
+	@Async
+    @Override
 	public String sendMedicamentos(Integer transacNr) {
 
 		// Get trazabi
@@ -816,18 +820,18 @@ public class TrazaService implements ITrazaService {
 		MedicamentosDTO m = new MedicamentosDTO();
 		try {
 			if (trazabi.getCodEventoSal() == 111) {
-				
+
 				Integer nrDomi = Integer.parseInt(transacDAO.getByPrimaryKey(trazabi.getNrTransacSalida()).getBenef());
-				
-				
+
 				if (nrDomi != null) {
 					Domicilios domicilios = domiciliosDAO.getByPrimaryKey(nrDomi);
 					genteDAO.getByPrimaryKey(domicilios.getGenteId());
 					m.setApellido(domicilios.getApellidoAfiliado());
 					m.setNombres(domicilios.getNombreAfiliado());
 					m.setNro_asociado(domicilios.getNrAfiliado());
-					m.setId_obra_social(String.valueOf(genteDAO.getByPrimaryKey(domicilios.getGenteId()).getNrObraSocial()));
-					
+					m.setId_obra_social(
+							String.valueOf(genteDAO.getByPrimaryKey(domicilios.getGenteId()).getNrObraSocial()));
+
 				}
 			}
 		} catch (Exception e) {
@@ -852,7 +856,7 @@ public class TrazaService implements ITrazaService {
 			m.setCuit_destino(trazabi.getCuitDestinoSal());
 			m.setNumero_serial(trazabi.getSerieGtin());
 			m.setVencimiento(trazabi.getVencimLote());
-			
+
 			// Parseo FEvento
 			Date fechaHoraIngreso = trazabi.getFechaSalida();
 			m.setF_evento(DateUtil.getFormatedDate(new Timestamp(fechaHoraIngreso.getTime())));
@@ -862,8 +866,6 @@ public class TrazaService implements ITrazaService {
 			m.setN_remito(trazabi.getNrRemitoPropio());
 			// Parseo HEvento
 			m.setH_evento(DateUtil.getFormatedHour(new Timestamp(fechaHoraIngreso.getTime())));
-			
-			
 
 			System.out.println();
 		} catch (Exception e) {
@@ -938,10 +940,11 @@ public class TrazaService implements ITrazaService {
 					// Actulizo trazabi
 					trazabi.setRespuestaSalida(smr.getSendMedicamentosResponse().get_return().getCodigoTransaccion());
 					trazabiDAO.update(trazabi);
-					//Demora
+					// Demora
 					Long resta = (new Timestamp(System.currentTimeMillis())).getTime() - inicio.getTime();
 					System.out.println("Nr Transac Respuesta: "
-							+ smr.getSendMedicamentosResponse().get_return().getCodigoTransaccion() + " Tiempo de respuesta: " + resta);
+							+ smr.getSendMedicamentosResponse().get_return().getCodigoTransaccion()
+							+ " Tiempo de respuesta: " + resta);
 				}
 			} catch (Exception e) {
 				msg = "No se pudo conectar con el servidor de ANMAT";
@@ -953,27 +956,127 @@ public class TrazaService implements ITrazaService {
 		}
 	}
 
+	public String sendMedicamentosTest(Integer transacNr) {
+		
+		Timestamp inicio = new Timestamp(System.currentTimeMillis());
+		// Get trazabi
+		Trazabi trazabi = trazabiDAO.getByPrimaryKey(transacNr);
+		
+		String result = "OK";
+
+		MedicamentosDTO m = new MedicamentosDTO();
+		try {
+			if (trazabi.getCodEventoSal() == 111) {
+
+				Integer nrDomi = Integer.parseInt(transacDAO.getByPrimaryKey(trazabi.getNrTransacSalida()).getBenef());
+
+				if (nrDomi != null) {
+					Domicilios domicilios = domiciliosDAO.getByPrimaryKey(nrDomi);
+					genteDAO.getByPrimaryKey(domicilios.getGenteId());
+					m.setApellido(domicilios.getApellidoAfiliado());
+					m.setNombres(domicilios.getNombreAfiliado());
+					m.setNro_asociado(domicilios.getNrAfiliado());
+					m.setId_obra_social(
+							String.valueOf(genteDAO.getByPrimaryKey(domicilios.getGenteId()).getNrObraSocial()));
+
+				}
+			}
+		} catch (Exception e) {
+		}
+
+		SendMedicamentos sm = new SendMedicamentos();
+
+		SendMedicamentosE req = new SendMedicamentosE();
+
+		MedicamentosDTO[] arg0Array = new MedicamentosDTO[1];
+
+		// Carga del objeto Requet
+		String errorParseo = "";
+		// Cargo Cabezera.
+
+		try {
+			m.setId_evento(String.valueOf(trazabi.getCodEventoSal()));
+			m.setGtin(trazabi.getGtin());
+			m.setGln_origen(trazabi.getGlnorigenSal());
+			m.setGln_destino(trazabi.getGlndestinoSal());
+			m.setCuit_origen(trazabi.getCuitOrigenSal());
+			m.setCuit_destino(trazabi.getCuitDestinoSal());
+			m.setNumero_serial(trazabi.getSerieGtin());
+			m.setVencimiento(trazabi.getVencimLote());
+
+			// Parseo FEvento
+			Date fechaHoraIngreso = trazabi.getFechaSalida();
+			m.setF_evento(DateUtil.getFormatedDate(new Timestamp(fechaHoraIngreso.getTime())));
+			// Parseo despacho
+			Despachos despachos = despachosDAO.getByPrimaryKey(Integer.parseInt(String.valueOf(trazabi.getNrlote())));
+			m.setLote(despachos.getSoloLote());
+			m.setN_remito(trazabi.getNrRemitoPropio());
+			// Parseo HEvento
+			m.setH_evento(DateUtil.getFormatedHour(new Timestamp(fechaHoraIngreso.getTime())));
+
+			System.out.println();
+		} catch (Exception e) {
+			errorParseo = "ERROR AL RECUPERAR LOS DATOS";
+			e.printStackTrace();
+		}
+
+		arg0Array[0] = m;
+
+		String usuario = parametrizacionDAO.getByPrimaryKey(Constants.PARAM_USR_PAMI).getValor();
+		String pass = parametrizacionDAO.getByPrimaryKey(Constants.PARAM_PASS_PAMI).getValor();
+
+		sm.setArg0(arg0Array);
+		sm.setArg1(usuario);
+		sm.setArg2(pass);
+		req.setSendMedicamentos(sm);
+
+		System.out.println("Envio de Venta de Nr: " + trazabi.getNr());
+		System.out.println("GNL Origen: " + trazabi.getGlnorigenSal());
+		System.out.println("GNL Destino: " + trazabi.getGlndestinoSal());
+		System.out.println("Fecha Evento: " + trazabi.getFechaSalida());
+		System.out.println("ID Evento: " + trazabi.getCodEventoSal());
+		
+		Long resta = (new Timestamp(System.currentTimeMillis())).getTime() - inicio.getTime();
+		System.out.println("Tiempo armado: " + " Tiempo de respuesta: " + resta);
+		return "Tiempo armado: " + " Tiempo de respuesta: " + resta;
+
+	}
+	
+	@Async
+    @Override
+    public String testAsync(String transacNr) {
+        try {            
+        	Timestamp inicio = new Timestamp(System.currentTimeMillis());
+    		Trazabi trazabi = trazabiDAO.getByPrimaryKey(Integer.valueOf(transacNr));
+            System.out.println("Trazabi: " + trazabi.getGtin());
+            Long resta = (new Timestamp(System.currentTimeMillis())).getTime() - inicio.getTime();
+    		System.out.println("Tiempo de respuesta: " + resta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "SS";
+        
+    }
+
 	public Trazabi addTrazabi(IngresoMercaderia ingresoMercaderia, DataSendMercaderia dataSendMercaderia,
 			Transac transac) {
 		Trazabi trazabi = new Trazabi();
 		trazabi.setGlndestinoIng(parametrizacionDAO.getByPrimaryKey(Constants.PARAM_GLN).getValor());
-		if (transac == null){
+		if (transac == null) {
 			trazabi.setCuitOrigenIng("-");
 			trazabi.setGenteNr(0);
-			
-		}else{
+
+		} else {
 			Domicilios domicilio = domiciliosDAO.getDomicilioPrincipal(transac.getGente().getId());
 			if (domicilio != null) {
 				trazabi.setGlnorigenIng(domicilio.getGln());
-				
+
 			}
 			trazabi.setCuitOrigenIng(transac.getGente().getCuit().replaceAll("-", ""));
 			trazabi.setGenteNr(transac.getGente().getId());
-			
+
 		}
-		
-		
-		
+
 		trazabi.setCuitOrigenSal(".");
 		trazabi.setCuitDestinoSal(".");
 		trazabi.setGlnorigenSal(".");
@@ -989,7 +1092,7 @@ public class TrazaService implements ITrazaService {
 		trazabi.setCant(1f);
 		trazabi.setTrazaObli(0);
 		trazabi.setVencimLote(ingresoMercaderia.getVencimiento());
-		
+
 		// Me fijo si el despacho existe
 		String date_short = DateUtil.CastStringToDateShort(ingresoMercaderia.getVencimiento());
 		String filterTextLote = "L=" + ingresoMercaderia.getLote() + " V=" + date_short;

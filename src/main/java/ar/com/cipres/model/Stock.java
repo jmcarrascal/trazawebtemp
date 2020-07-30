@@ -23,7 +23,7 @@ import javax.persistence.Transient;
 //@Table(name = "Stock", schema = "ComunSql.dbo")
 //Simpa
 //@Table(name = "Stock", schema = "ArtPlas.dbo")
-@Table(name = "stock", schema = "ComunSql.dbo")
+@Table(name = "stock", schema = "ComunDistri.dbo")
 public class Stock implements java.io.Serializable {
 
 	private String id;
