@@ -810,7 +810,6 @@ public class TrazaService implements ITrazaService {
 
 	}
 	
-	@Async
     @Override
 	public String sendMedicamentos(Integer transacNr) {
 
