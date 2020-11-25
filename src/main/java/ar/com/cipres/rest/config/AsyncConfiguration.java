@@ -8,9 +8,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  
 import java.util.concurrent.Executor;
  
-@EnableAsync
-@EnableScheduling
-@Configuration
+//@EnableAsync
+//@EnableScheduling
+//@Configuration
 public class AsyncConfiguration extends AsyncConfigurerSupport {
  
     public AsyncConfiguration(){
