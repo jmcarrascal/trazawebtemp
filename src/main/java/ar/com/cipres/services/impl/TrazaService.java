@@ -856,9 +856,15 @@ public class TrazaService implements ITrazaService {
 			m.setNumero_serial(trazabi.getSerieGtin());
 			m.setVencimiento(trazabi.getVencimLote());
 
+			Date fechaHoraIngreso = new Date(DateUtil.getCurrentDate().getTime());
+			
+			try {
 			// Parseo FEvento
-			Date fechaHoraIngreso = trazabi.getFechaSalida();
+			fechaHoraIngreso = trazabi.getFechaSalida();
 			m.setF_evento(DateUtil.getFormatedDate(new Timestamp(fechaHoraIngreso.getTime())));
+			}catch(Exception ew) {
+				
+			}
 			// Parseo despacho
 			Despachos despachos = despachosDAO.getByPrimaryKey(Integer.parseInt(String.valueOf(trazabi.getNrlote())));
 			m.setLote(despachos.getSoloLote());
