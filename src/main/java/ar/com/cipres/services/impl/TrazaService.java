@@ -863,7 +863,7 @@ public class TrazaService implements ITrazaService {
 			fechaHoraIngreso = trazabi.getFechaSalida();
 			m.setF_evento(DateUtil.getFormatedDate(new Timestamp(fechaHoraIngreso.getTime())));
 			}catch(Exception ew) {
-				
+				fechaHoraIngreso = new Date(DateUtil.getCurrentDate().getTime());
 			}
 			// Parseo despacho
 			Despachos despachos = despachosDAO.getByPrimaryKey(Integer.parseInt(String.valueOf(trazabi.getNrlote())));
