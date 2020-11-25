@@ -1041,7 +1041,6 @@ public class TrazaService implements ITrazaService {
 
 	}
 	
-	@Async
     @Override
     public String testAsync(String transacNr) {
         try {            
