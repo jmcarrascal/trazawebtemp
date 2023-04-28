@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ivacod", schema = "ComunDistri.dbo")
+@Table(name = "ivacod", schema = "ComunNewDistri.dbo")
 public class IvaCodigo implements java.io.Serializable {
 	private Integer id;
 	private String descripcion;

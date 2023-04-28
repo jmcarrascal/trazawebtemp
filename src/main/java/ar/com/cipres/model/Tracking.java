@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tracking", schema = "Distri.dbo")
+@Table(name = "tracking", schema = "NewDistri.dbo")
 public class Tracking implements java.io.Serializable {
 	private Integer id;
 	private Integer genteNr;

@@ -502,6 +502,7 @@ public class TrazaService implements ITrazaService {
 						trazabiTmp.setImpreso(0);
 						trazabiTmp.setSucursal(1);
 						trazabiTmp.setTipoSalida(0);
+						trazabiTmp.setGenteNr(stock.getProveedPrincip());
 						// Orien
 						// trazabiTmp.setCuitDestinoIng("30686262312");
 						// Drofar
@@ -563,7 +564,7 @@ public class TrazaService implements ITrazaService {
 							System.out.println("");
 							e.printStackTrace();
 						}
-
+						
 						trazabiDAO.save(trazabiTmp);
 						System.out.println(trazabiTmp.getNr());
 						// Agrego ArtDespa
@@ -893,6 +894,8 @@ public class TrazaService implements ITrazaService {
 		System.out.println("GNL Destino: " + trazabi.getGlndestinoSal());
 		System.out.println("Fecha Evento: " + trazabi.getFechaSalida());
 		System.out.println("ID Evento: " + trazabi.getCodEventoSal());
+		System.out.println("Enviando: " + trazabi.getCodEventoSal());
+		
 
 		IWebServiceStub service = null;
 		try {

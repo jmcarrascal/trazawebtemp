@@ -24,7 +24,7 @@ public class SetSchema {
 		// Recorrer los archivos
 		String rutaModel = "/Users/juanmanuelcarrascal/projects/ERP/trazawebtemp/src/main/java/ar/com/cipres/model/";
 //		String empresa = "contempo.txt";
-		String empresa = "distri.txt";
+//		String empresa = "distri.txt";
 //		String empresa = "empresa1.txt";
 //		String empresa = "mysql.txt";
 //		String empresa = "bika.txt";
@@ -32,7 +32,7 @@ public class SetSchema {
 //        String empresa = "TransacSql.txt";
 //		String empresa = "wilde.txt";
 //        String empresa = "sanblas.txt";
-//        String empresa = "newDistri.txt";
+        String empresa = "newDistri.txt";
 		File repositorio = new File(rutaModel);
 		File[] fileList = repositorio.listFiles();
 		SetSchema setSchema = new SetSchema();
